@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -28,7 +29,6 @@ class App extends React.Component {
 
     axios.get('http://127.0.0.1:8000/api/task-list/')
      .then((response)=>{
-      response.json()
       console.log(response);
       }
     ).catch( (error)=>{
