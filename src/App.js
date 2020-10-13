@@ -17,8 +17,11 @@ class App extends React.Component {
     }
 
     this.fetchTasks = this.fetchTasks.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   };
+
 
   componentWillMount() {
     this.fetchTasks();
@@ -41,18 +44,56 @@ class App extends React.Component {
     )
   }
 
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    axios.post('http://127.0.0.1:8000/api/task-create/', this.state.activeItem).then(
+      (response) => {
+        this.fetchTasks()
+        this.setState({
+            activeItem: {
+              id: null,
+              title: '',
+              completed: false,
+            }
+          }
+        )
+        console.log(response)
+      }
+    )
+
+
+  }
+
+  handleChange(event) {
+    let name = event.target.name
+    let value = event.target.value
+
+    console.log('name: ', name)
+    console.log('value: ', value)
+
+    this.setState({
+      activeItem: {
+        ...this.state.activeItem,
+        title: value
+      }
+    })
+  }
+
   render() {
 
-    var tasks = this.state.todoList;
+    let tasks = this.state.todoList;
 
     return (
       <div className="container">
         <div id="task-container">
           <div id="form-wrapper">
-            <form id="form">
+            <form onSubmit={this.handleSubmit} id="form">
               <div className="flex-wrapper">
                 <div style={{flex: 6}}>
-                  <input className="form-control" id="title" name="title" placeholder="title"/>
+                  <input onChange={this.handleChange} className="form-control" id="title" name="title"
+                         placeholder="title"/>
                 </div>
                 <div style={{flex: 1}}>
                   <input id="submit" className="btn btn-warning" type="submit" name="add"/>
@@ -71,12 +112,12 @@ class App extends React.Component {
                     </span>
                   </div>
 
-                  <div style={{flex:1}}>
+                  <div style={{flex: 1}}>
                     <button className="btn btn-sm btn-outline-info">Edit</button>
                   </div>
 
                   <div>
-                   <button className="btn btn-sm btn-outline-dark delete">-</button>
+                    <button className="btn btn-sm btn-outline-dark delete">-</button>
                   </div>
                 </div>
               )
