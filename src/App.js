@@ -19,6 +19,8 @@ class App extends React.Component {
     this.fetchTasks = this.fetchTasks.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
 
   };
 
@@ -44,27 +46,66 @@ class App extends React.Component {
     )
   }
 
+  handleDelete(task) {
+    axios.delete('http://127.0.0.1:8000/api/task-delete/' + task.id + '/').then(
+      (response) => {
+        this.fetchTasks()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
+  handleUpdate(task) {
+    this.setState({
+      editing: true
+    })
+
+    if (this.state.editing === true) {
+      this.setState({
+        activeItem: {
+          title: task.title
+        }
+      })
+
+      axios.post('http://127.0.0.1:8000/api/task-update/' + task.id + '/', this.state.activeItem).then(
+        (response) => {
+
+          this.fetchTasks()
+          console.log(response);
+        }
+      ).catch((error) => {
+        console.log(error)
+      })
+    }
+
+  }
+
 
   handleSubmit(event) {
     event.preventDefault();
+    if (this.state.editing === true) {
 
-    axios.post('http://127.0.0.1:8000/api/task-create/', this.state.activeItem).then(
-      (response) => {
-        this.fetchTasks()
-        this.setState({
-            activeItem: {
-              id: null,
-              title: '',
-              completed: false,
+    } else {
+      axios.post('http://127.0.0.1:8000/api/task-create/', this.state.activeItem).then(
+        (response) => {
+          this.fetchTasks()
+          this.setState({
+              activeItem: {
+                id: null,
+                title: '',
+                completed: false,
+              }
             }
-          }
-        )
-        console.log(response)
-      }
-    )
-
-
+          )
+          console.log(response)
+        }
+      )
+    }
   }
+
 
   handleChange(event) {
     let name = event.target.name
@@ -81,9 +122,11 @@ class App extends React.Component {
     })
   }
 
+
   render() {
 
     let tasks = this.state.todoList;
+    let self = this;
 
     return (
       <div className="container">
@@ -92,8 +135,14 @@ class App extends React.Component {
             <form onSubmit={this.handleSubmit} id="form">
               <div className="flex-wrapper">
                 <div style={{flex: 6}}>
-                  <input onChange={this.handleChange} className="form-control" id="title" name="title"
-                         placeholder="title"/>
+                  <input
+                    onChange={this.handleChange}
+                    className="form-control"
+                    id="title"
+                    name="title"
+                    placeholder="title"
+                    value={this.state.activeItem.title}
+                  />
                 </div>
                 <div style={{flex: 1}}>
                   <input id="submit" className="btn btn-warning" type="submit" name="add"/>
@@ -113,11 +162,13 @@ class App extends React.Component {
                   </div>
 
                   <div style={{flex: 1}}>
-                    <button className="btn btn-sm btn-outline-info">Edit</button>
+                    <button onClick={() => self.handleUpdate(task)} className="btn btn-sm btn-outline-info">Edit
+                    </button>
                   </div>
 
                   <div>
-                    <button className="btn btn-sm btn-outline-dark delete">-</button>
+                    <button onClick={() => self.handleDelete(task)} className="btn btn-sm btn-outline-dark delete">-
+                    </button>
                   </div>
                 </div>
               )
