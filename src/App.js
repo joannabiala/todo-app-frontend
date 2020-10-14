@@ -21,6 +21,7 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
 
   };
 
@@ -127,6 +128,26 @@ class App extends React.Component {
   }
 
 
+  handleComplete(task) {
+
+    task.completed = !task.completed
+
+    axios.put('http://127.0.0.1:8000/api/task-update/' + task.id + '/').then(
+      (response) => {
+        this.setState({
+            completed: task.completed
+          }
+        )
+        console.log(response)
+
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+
+  }
+
+
   render() {
 
     let tasks = this.state.todoList;
@@ -160,8 +181,8 @@ class App extends React.Component {
               return (
                 <div key={index} className="task-wrapper flex-wrapper ">
                   <div style={{flex: 7}}>
-                    <span>
-                      {task.title}
+                    <span onClick={() => self.handleComplete(task)}>
+                   {task.completed === false ? (<span>{task.title}</span>) : (<del>{task.title}</del>)}
                     </span>
                   </div>
 
