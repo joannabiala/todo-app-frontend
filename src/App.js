@@ -22,6 +22,7 @@ class App extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
+    this.handleRegister = this.handleRegister.bind(this);
 
   };
 
@@ -45,6 +46,20 @@ class App extends React.Component {
         console.log(error);
       }
     )
+  }
+
+
+  handleRegister(){
+    const data = {
+      email: 'joannabiala@gmail.com',
+      username: 'joasia',
+      password: 'biala'
+    }
+
+    axios.post('http://127.0.0.1:8000/api/create-auth/'+1, data ).then((response)=>{
+      console.log(response)
+    })
+
   }
 
   handleDelete(task) {
