@@ -66,29 +66,33 @@ class App extends React.Component {
     if (this.state.editing === true) {
       this.setState({
         activeItem: {
-          title: task.title
+          title: task.title,
+          id: task.id
         }
-      })
-
-      axios.post('http://127.0.0.1:8000/api/task-update/' + task.id + '/', this.state.activeItem).then(
-        (response) => {
-
-          this.fetchTasks()
-          console.log(response);
-        }
-      ).catch((error) => {
-        console.log(error)
       })
     }
-
   }
 
 
   handleSubmit(event) {
     event.preventDefault();
+
+
     if (this.state.editing === true) {
+      axios.put('http://127.0.0.1:8000/api/task-update/' + this.state.activeItem.id + '/', this.state.activeItem).then(
+        (response) => {
+          this.fetchTasks()
+          console.log(response);
+          this.setState({
+            editing: false
+          })
+        }
+      ).catch((error) => {
+        console.log(error)
+      })
 
     } else {
+
       axios.post('http://127.0.0.1:8000/api/task-create/', this.state.activeItem).then(
         (response) => {
           this.fetchTasks()
