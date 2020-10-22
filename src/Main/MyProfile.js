@@ -1,27 +1,72 @@
 import React from "react";
 import axios from 'axios';
+import '../App.css';
 
 
 export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      toDoList : [],
-      task : {
-        id: '',
+      todoList : [],
+      activeItem : {
+        id: null,
         title: '',
         completed: false
-      }
+      },
+      editing: false
     }
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleTitleChange = this.handleTitleChange.bind(this)
+    this.fetchTasks = this.fetchTasks.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleComplete = this.handleComplete.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
   }
 
-  handleTitleChange(event) {
+  handleUpdate(task) {
     this.setState({
-      title: event.target.value,
-    });
+      editing: true
+    })
+
+    if (this.state.editing === true) {
+      this.setState({
+        activeItem: {
+          title: task.title,
+          id: task.id,
+          completed: task.completed
+        }
+      })
+    }
+  }
+
+
+
+  handleChange(event) {
+    let name = event.target.name
+    let value = event.target.value
+
+    console.log('name: ', name)
+    console.log('value: ', value)
+
+    this.setState({
+      activeItem: {
+        ...this.state.activeItem,
+        title: value
+      }
+    })
+  }
+
+  handleDelete(task) {
+    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+      (response) => {
+        this.fetchTasks()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
   }
 
   componentDidMount() {
@@ -33,9 +78,9 @@ export default class SignIn extends React.Component {
       .then((response)=>{
         console.log(response)
         this.setState({
-          toDoList: response.data
+          todoList: response.data
         })
-        console.log(this.state.toDoList)
+        console.log(this.state.todoList)
       })
       .catch((error)=>{
         console.log(error)
@@ -45,23 +90,65 @@ export default class SignIn extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    const data = {
-      title: this.state.title,
-    };
+    if (this.state.editing === true) {
+      axios.put('http://127.0.0.1:8000/api/tasks/' + this.state.activeItem.id + '/', this.state.activeItem).then(
+        (response) => {
+          this.fetchTasks()
+          console.log(response);
+          this.setState({
+            editing: false
+          })
+        }
+      ).catch((error) => {
+        console.log(error)
+      })
 
-    axios.post('http://127.0.0.1:8000/api/tasks/', data)
-      .then((response) => {
-        console.log(response);
-        this.fetchTasks()
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    } else {
+
+      axios.post('http://127.0.0.1:8000/api/tasks/', this.state.activeItem)
+        .then((response) => {
+          this.setState({
+              activeItem: {
+                id: null,
+                title: '',
+                completed: false,
+              }
+            }
+          )
+
+          console.log(response);
+          this.fetchTasks()
+
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+    }
   }
 
 
+  handleComplete(task) {
+
+    task.completed = !task.completed
+
+    axios.put('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+      (response) => {
+        this.setState({
+            completed: task.completed
+          }
+        )
+        console.log(response)
+
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+
+  }
+
   render() {
-    let tasks = this.state.toDoList;
+    let tasks = this.state.todoList;
     let self = this;
     return (
       <div>
@@ -76,8 +163,8 @@ export default class SignIn extends React.Component {
                       id="title"
                       name="title"
                       placeholder="title"
-                      onChange={this.handleTitleChange}
-                      value={this.state.title}
+                      onChange={this.handleChange}
+                      value={this.state.activeItem.title}
                     />
                   </div>
                   <div style={{flex: 1}}>
