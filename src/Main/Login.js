@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Redirect} from "react-router-dom";
 
 
-export default class SignIn extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,8 +53,6 @@ export default class SignIn extends React.Component {
         console.log(error);
       })
   }
-
-
 
 
   render() {

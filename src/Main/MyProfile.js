@@ -3,12 +3,12 @@ import axios from 'axios';
 import '../App.css';
 
 
-export default class SignIn extends React.Component {
+export default class MyProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      todoList : [],
-      activeItem : {
+      todoList: [],
+      activeItem: {
         id: null,
         title: '',
         completed: false
@@ -22,6 +22,7 @@ export default class SignIn extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
 
   }
 
@@ -40,7 +41,6 @@ export default class SignIn extends React.Component {
       })
     }
   }
-
 
 
   handleChange(event) {
@@ -75,14 +75,14 @@ export default class SignIn extends React.Component {
 
   fetchTasks() {
     axios.get('http://127.0.0.1:8000/api/tasks/')
-      .then((response)=>{
+      .then((response) => {
         console.log(response)
         this.setState({
           todoList: response.data
         })
         console.log(this.state.todoList)
       })
-      .catch((error)=>{
+      .catch((error) => {
         console.log(error)
       })
   }
@@ -147,6 +147,13 @@ export default class SignIn extends React.Component {
 
   }
 
+
+  handleLogout() {
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common['Authorization'];
+  }
+
+
   render() {
     let tasks = this.state.todoList;
     let self = this;
@@ -173,6 +180,7 @@ export default class SignIn extends React.Component {
                 </div>
               </form>
             </div>
+            <button onClick={this.handleLogout}>Wyloguj</button>
 
             <div id="list-wrapper">
               {tasks.map(function (task, index) {

@@ -4,9 +4,10 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import Routing from "./Routing";
+import App from "./App";
 
 
-ReactDOM.render(<Routing/>, document.querySelector('#root'));
+ReactDOM.render(<App/>, document.querySelector('#root'));
 
 serviceWorker.unregister();
 
