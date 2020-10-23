@@ -40,13 +40,13 @@ export default class Login extends React.Component {
 
     axios.post('http://127.0.0.1:8000/auth/', data)
       .then((response) => {
-        this.setState({redirectToMyProfile: true});
 
         const token = `Token ${response.data.token}`
         axios.defaults.headers.common['Authorization'] = token;
 
         localStorage.setItem('token', token);
 
+        this.setState({redirectToMyProfile: true});
 
       })
       .catch((error) => {

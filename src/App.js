@@ -10,6 +10,7 @@ import SignIn from "./Main/SignIn";
 import LogIn from "./Main/Login";
 import MyProfile from "./Main/MyProfile";
 import Logout from "./Main/Logout";
+import MainPage from "./Main/MainPage";
 
 axios.defaults.withCredentials = true;
 
@@ -29,6 +30,9 @@ export default class App extends React.Component {
           <Switch>
             <Route path="/signin">
               <SignIn/>
+            </Route>
+            <Route path="/main">
+              <MainPage/>
             </Route>
             <Route path="/login">
               <LogIn/>

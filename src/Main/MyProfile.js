@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import '../App.css';
+import {Redirect} from "react-router-dom";
 
 
 export default class MyProfile extends React.Component {
@@ -13,7 +14,10 @@ export default class MyProfile extends React.Component {
         title: '',
         completed: false
       },
-      editing: false
+      editing: false,
+      redirectToMain: false,
+      searchField: '',
+
     }
 
     this.fetchTasks = this.fetchTasks.bind(this);
@@ -23,7 +27,15 @@ export default class MyProfile extends React.Component {
     this.handleComplete = this.handleComplete.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.handleSearchFieldChange = this.handleSearchFieldChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
 
+
+  handleSearchFieldChange(event) {
+    this.setState({
+      searchField: event.target.value,
+    });
   }
 
   handleUpdate(task) {
@@ -68,6 +80,7 @@ export default class MyProfile extends React.Component {
       console.log(error)
     })
   }
+
 
   componentDidMount() {
     this.fetchTasks()
@@ -151,14 +164,37 @@ export default class MyProfile extends React.Component {
   handleLogout() {
     localStorage.removeItem("token");
     delete axios.defaults.headers.common['Authorization'];
+    this.setState({redirectToMain: true})
+  }
+
+  handleSearch(event) {
+    event.preventDefault();
+    axios.get('http://127.0.0.1:8000/api/tasks/?search=' + this.state.searchField).then(
+      (response) => {
+        console.log(response)
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
   }
 
 
   render() {
     let tasks = this.state.todoList;
     let self = this;
+
+
+    if (this.state.redirectToMain) {
+      return (<Redirect to="/main"/>)
+    }
+
     return (
       <div>
+        <form onSubmit={this.handleSearch}>
+          <input onChange={this.handleSearchFieldChange} type="text"/>
+          <button type="submit">Szukaj</button>
+        </form>
+
         <div className="container">
           <div id="task-container">
             <div id="form-wrapper">
@@ -180,6 +216,7 @@ export default class MyProfile extends React.Component {
                 </div>
               </form>
             </div>
+
             <button onClick={this.handleLogout}>Wyloguj</button>
 
             <div id="list-wrapper">

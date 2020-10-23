@@ -9,7 +9,7 @@ export default class SignIn extends React.Component {
     this.state = {
       username: '',
       password: '',
-      redirectToMyProfile: false,
+      redirectToLogin: false,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,7 +41,7 @@ export default class SignIn extends React.Component {
     axios.post('http://127.0.0.1:8000/api/user/', data)
       .then((response) => {
         console.log(response);
-        this.setState({redirectToMyProfile: true});
+        this.setState({redirectToLogin: true});
 
         const token = `Token ${response.data.token}`
         axios.defaults.headers.common['Authorization'] = token;
@@ -58,8 +58,8 @@ export default class SignIn extends React.Component {
 
   render() {
 
-    if (this.state.redirectToMyProfile) {
-      return <Redirect to="/myprofile"/>;
+    if (this.state.redirectToLogin) {
+      return <Redirect to="/login"/>;
     }
 
     return (
