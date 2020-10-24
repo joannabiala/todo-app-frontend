@@ -144,15 +144,17 @@ export default class MyProfile extends React.Component {
   handleComplete(task) {
 
     task.completed = !task.completed
+    console.log('dupa')
+    console.log(task.title)
+    console.log(task.completed)
 
-    axios.put('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+    axios.patch('http://127.0.0.1:8000/api/tasks/' + task.id + '/', task).then(
       (response) => {
         this.setState({
             completed: task.completed
           }
         )
         console.log(response)
-
       }
     ).catch((error) => {
       console.log(error)
@@ -218,6 +220,7 @@ export default class MyProfile extends React.Component {
             </div>
 
             <button onClick={this.handleLogout}>Wyloguj</button>
+
 
             <div id="list-wrapper">
               {tasks.map(function (task, index) {
