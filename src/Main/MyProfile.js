@@ -181,6 +181,7 @@ export default class MyProfile extends React.Component {
   }
 
 
+
   render() {
     let tasks = this.state.todoList;
     let self = this;
@@ -221,9 +222,8 @@ export default class MyProfile extends React.Component {
 
             <button onClick={this.handleLogout}>Wyloguj</button>
 
-
             <div id="list-wrapper">
-              {tasks.map(function (task, index) {
+              {tasks.map((task, index) => {
                 return (
                   <div key={index} className="task-wrapper flex-wrapper ">
                     <div style={{flex: 7}}>
