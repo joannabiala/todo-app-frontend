@@ -3,6 +3,8 @@ import axios from 'axios';
 import '../App.css';
 import {Redirect} from "react-router-dom";
 import TaskComponent from "./TaskComponent";
+import NavbarComponent from "./NavbarComponent";
+import PageTemplateComponent from "./PageTemplateComponent";
 
 
 export default class MyProfile extends React.Component {
@@ -35,7 +37,6 @@ export default class MyProfile extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeListID = this.handleChangeListID.bind(this);
     this.handleDeleteList = this.handleDeleteList.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
 
@@ -181,13 +182,6 @@ export default class MyProfile extends React.Component {
   }
 
 
-  handleLogout() {
-    localStorage.removeItem("token");
-    delete axios.defaults.headers.common['Authorization'];
-    this.setState({redirectToMain: true})
-  }
-
-
   handleDeleteList(list) {
     axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
       (response) => {
@@ -212,6 +206,7 @@ export default class MyProfile extends React.Component {
   }
 
 
+
   render() {
     let lists = this.state.todoList;
     let self = this;
@@ -222,70 +217,71 @@ export default class MyProfile extends React.Component {
     }
 
     return (
-      <div>
-        <button onClick={this.handleLogout}>Wyloguj</button>
-        <div className="container">
-          <div id="task-container">
-            <div id="form-wrapper">
-              <form onSubmit={this.handleSubmitListName} id="form">
-                <div className="flex-wrapper">
-                  <div style={{flex: 6}}>
-                    <input
-                      className="form-control"
-                      id="title"
-                      name="title"
-                      placeholder="nazwa listy"
-                      onChange={this.handleChangeListName}
-                      value={this.state.list_name}
-                    />
+      <PageTemplateComponent>
+        <div>Start creating your lists!</div>
+        <div>
+          <div className="container">
+            <div id="task-container">
+              <div id="form-wrapper">
+                <form onSubmit={this.handleSubmitListName} id="form">
+                  <div className="flex-wrapper">
+                    <div style={{flex: 6}}>
+                      <input
+                        className="form-control"
+                        id="title"
+                        name="title"
+                        placeholder="nazwa listy"
+                        onChange={this.handleChangeListName}
+                        value={this.state.list_name}
+                      />
+                    </div>
+                    <div style={{flex: 1}}>
+                      <input id="submit" className="btn btn-warning" type="submit" name="add"/>
+                    </div>
                   </div>
-                  <div style={{flex: 1}}>
-                    <input id="submit" className="btn btn-warning" type="submit" name="add"/>
+                </form>
+                <form onSubmit={this.handleSubmitTask} id="form">
+                  <div className="flex-wrapper">
+                    <div style={{flex: 6}}>
+                      <input
+                        className="form-control"
+                        id="title"
+                        name="title"
+                        placeholder="nazwa taska"
+                        onChange={this.handleChange}
+                        value={this.state.activeItem.title}
+                      />
+                      <input
+                        className="form-control"
+                        placeholder="id listy"
+                        onChange={this.handleChangeListID}
+                        value={this.state.list}
+                      />
+                    </div>
+                    <div style={{flex: 1}}>
+                      <input id="submit" className="btn btn-warning" type="submit" name="add"/>
+                    </div>
                   </div>
-                </div>
-              </form>
-              <form onSubmit={this.handleSubmitTask} id="form">
-                <div className="flex-wrapper">
-                  <div style={{flex: 6}}>
-                    <input
-                      className="form-control"
-                      id="title"
-                      name="title"
-                      placeholder="nazwa taska"
-                      onChange={this.handleChange}
-                      value={this.state.activeItem.title}
-                    />
-                    <input
-                      className="form-control"
-                      placeholder="id listy"
-                      onChange={this.handleChangeListID}
-                      value={this.state.list}
-                    />
-                  </div>
-                  <div style={{flex: 1}}>
-                    <input id="submit" className="btn btn-warning" type="submit" name="add"/>
-                  </div>
-                </div>
-              </form>
-            </div>
+                </form>
+              </div>
 
 
-            <div id="list-wrapper">
-              {lists.map((list, index) => {
-                return (
-                  <div key={index} className="task-wrapper flex-wrapper ">
-                    <div style={{flex: 7}}>
-                      <h5>{list.list_name}</h5>
-                      <div>
-                        <button onClick={() => self.handleDeleteList(list)}
-                                className="btn btn-sm btn-outline-dark delete">-
-                        </button>
-                      </div>
-                      <br/>
-                      {list.taski.map((task, index) => {
-                        return (
-                          <div key={index}>
-                            <div style={{flex: 7}}>
+              <div id="list-wrapper">
+                {lists.map((list, index) => {
+                  return (
+                    <div key={index} className="task-wrapper flex-wrapper ">
+                      <div style={{flex: 7}}>
+                        <h5>{list.list_name}</h5>
+                        <div>
+                          <button onClick={() => self.handleDeleteList(list)}
+                                  className="btn btn-sm btn-outline-dark delete">-
+                          </button>
+                        </div>
+                        <br/>
+                        {list.taski.map((task, index) => {
+                          return (
+                            <div key={index}>
+                              <div style={{flex: 7}}>
                              <span onClick={() => self.handleComplete(task)}>
                                {task.completed === false ? (<span><TaskComponent task={task}/></span>) : (
                                  <del>
@@ -293,27 +289,28 @@ export default class MyProfile extends React.Component {
                                  </del>
                                )}
                                </span>
-                            </div>
-                            <div>
-                              <button onClick={() => self.handleDelete(task)}
-                                      className="btn btn-sm btn-outline-dark delete">-
-                              </button>
-                            </div>
-                            <div style={{flex: 1}}>
-                              <button onClick={() => self.handleUpdate(task)}
-                                      className="btn btn-sm btn-outline-info">Edit
-                              </button>
-                            </div>
-                          </div>)
-                      })}
+                              </div>
+                              <div>
+                                <button onClick={() => self.handleDelete(task)}
+                                        className="btn btn-sm btn-outline-dark delete">-
+                                </button>
+                              </div>
+                              <div style={{flex: 1}}>
+                                <button onClick={() => self.handleUpdate(task)}
+                                        className="btn btn-sm btn-outline-info">Edit
+                                </button>
+                              </div>
+                            </div>)
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </PageTemplateComponent>
     )
   }
 }
