@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import '../App.css';
 import {Redirect} from "react-router-dom";
+import TaskComponent from "./TaskComponent";
 
 
 export default class MyProfile extends React.Component {
@@ -9,11 +10,15 @@ export default class MyProfile extends React.Component {
     super(props);
     this.state = {
       todoList: [],
+      list_name: '',
+
       activeItem: {
         id: null,
         title: '',
-        completed: false
+        completed: false,
+        list: '',
       },
+
       editing: false,
       redirectToMain: false,
       searchField: '',
@@ -21,22 +26,35 @@ export default class MyProfile extends React.Component {
     }
 
     this.fetchTasks = this.fetchTasks.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmitListName = this.handleSubmitListName.bind(this);
+    this.handleSubmitTask = this.handleSubmitTask.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
     this.handleComplete = this.handleComplete.bind(this);
+    this.handleChangeListName = this.handleChangeListName.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeListID = this.handleChangeListID.bind(this);
+    this.handleDeleteList = this.handleDeleteList.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
-    this.handleSearchFieldChange = this.handleSearchFieldChange.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
   }
 
 
-  handleSearchFieldChange(event) {
+  handleChangeListName(event) {
     this.setState({
-      searchField: event.target.value,
+      list_name: event.target.value,
     });
   }
+
+
+  handleChangeListID(event) {
+    const activeItem = this.state.activeItem
+    activeItem.list = event.target.value
+
+    this.setState({
+      activeItem: activeItem
+    });
+  }
+
 
   handleUpdate(task) {
     this.setState({
@@ -65,19 +83,8 @@ export default class MyProfile extends React.Component {
     this.setState({
       activeItem: {
         ...this.state.activeItem,
-        title: value
+        title: value,
       }
-    })
-  }
-
-  handleDelete(task) {
-    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
-      (response) => {
-        this.fetchTasks()
-        console.log(response);
-      }
-    ).catch((error) => {
-      console.log(error)
     })
   }
 
@@ -87,11 +94,11 @@ export default class MyProfile extends React.Component {
   }
 
   fetchTasks() {
-    axios.get('http://127.0.0.1:8000/api/tasks/')
+    axios.get('http://127.0.0.1:8000/api/list/')
       .then((response) => {
         console.log(response)
         this.setState({
-          todoList: response.data
+          todoList: response.data,
         })
         console.log(this.state.todoList)
       })
@@ -100,12 +107,14 @@ export default class MyProfile extends React.Component {
       })
   }
 
-  handleSubmit(event) {
+
+  handleSubmitTask(event) {
     event.preventDefault();
 
     if (this.state.editing === true) {
       axios.put('http://127.0.0.1:8000/api/tasks/' + this.state.activeItem.id + '/', this.state.activeItem).then(
         (response) => {
+          console.log(this.state.list)
           this.fetchTasks()
           console.log(response);
           this.setState({
@@ -115,9 +124,7 @@ export default class MyProfile extends React.Component {
       ).catch((error) => {
         console.log(error)
       })
-
     } else {
-
       axios.post('http://127.0.0.1:8000/api/tasks/', this.state.activeItem)
         .then((response) => {
           this.setState({
@@ -128,15 +135,12 @@ export default class MyProfile extends React.Component {
               }
             }
           )
-
           console.log(response);
           this.fetchTasks()
-
         })
         .catch((error) => {
           console.log(error);
         })
-
     }
   }
 
@@ -144,7 +148,6 @@ export default class MyProfile extends React.Component {
   handleComplete(task) {
 
     task.completed = !task.completed
-    console.log('dupa')
     console.log(task.title)
     console.log(task.completed)
 
@@ -159,7 +162,22 @@ export default class MyProfile extends React.Component {
     ).catch((error) => {
       console.log(error)
     })
+  }
 
+
+  handleSubmitListName(event) {
+    event.preventDefault();
+    const data = {
+      list_name: this.state.list_name
+    }
+    axios.post('http://127.0.0.1:8000/api/list/', data)
+      .then((response) => {
+        this.fetchTasks()
+        console.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
 
@@ -169,11 +187,12 @@ export default class MyProfile extends React.Component {
     this.setState({redirectToMain: true})
   }
 
-  handleSearch(event) {
-    event.preventDefault();
-    axios.get('http://127.0.0.1:8000/api/tasks/?search=' + this.state.searchField).then(
+
+  handleDeleteList(list) {
+    axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
       (response) => {
-        console.log(response)
+        this.fetchTasks()
+        console.log(response);
       }
     ).catch((error) => {
       console.log(error)
@@ -181,9 +200,20 @@ export default class MyProfile extends React.Component {
   }
 
 
+  handleDelete(task) {
+    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+      (response) => {
+        this.fetchTasks()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
 
   render() {
-    let tasks = this.state.todoList;
+    let lists = this.state.todoList;
     let self = this;
 
 
@@ -193,24 +223,43 @@ export default class MyProfile extends React.Component {
 
     return (
       <div>
-        <form onSubmit={this.handleSearch}>
-          <input onChange={this.handleSearchFieldChange} type="text"/>
-          <button type="submit">Szukaj</button>
-        </form>
-
+        <button onClick={this.handleLogout}>Wyloguj</button>
         <div className="container">
           <div id="task-container">
             <div id="form-wrapper">
-              <form onSubmit={this.handleSubmit} id="form">
+              <form onSubmit={this.handleSubmitListName} id="form">
                 <div className="flex-wrapper">
                   <div style={{flex: 6}}>
                     <input
                       className="form-control"
                       id="title"
                       name="title"
-                      placeholder="title"
+                      placeholder="nazwa listy"
+                      onChange={this.handleChangeListName}
+                      value={this.state.list_name}
+                    />
+                  </div>
+                  <div style={{flex: 1}}>
+                    <input id="submit" className="btn btn-warning" type="submit" name="add"/>
+                  </div>
+                </div>
+              </form>
+              <form onSubmit={this.handleSubmitTask} id="form">
+                <div className="flex-wrapper">
+                  <div style={{flex: 6}}>
+                    <input
+                      className="form-control"
+                      id="title"
+                      name="title"
+                      placeholder="nazwa taska"
                       onChange={this.handleChange}
                       value={this.state.activeItem.title}
+                    />
+                    <input
+                      className="form-control"
+                      placeholder="id listy"
+                      onChange={this.handleChangeListID}
+                      value={this.state.list}
                     />
                   </div>
                   <div style={{flex: 1}}>
@@ -220,26 +269,43 @@ export default class MyProfile extends React.Component {
               </form>
             </div>
 
-            <button onClick={this.handleLogout}>Wyloguj</button>
 
             <div id="list-wrapper">
-              {tasks.map((task, index) => {
+              {lists.map((list, index) => {
                 return (
                   <div key={index} className="task-wrapper flex-wrapper ">
                     <div style={{flex: 7}}>
-                    <span onClick={() => self.handleComplete(task)}>
-                   {task.completed === false ? (<span>{task.title}</span>) : (<del>{task.title}</del>)}
-                    </span>
-                    </div>
-
-                    <div style={{flex: 1}}>
-                      <button onClick={() => self.handleUpdate(task)} className="btn btn-sm btn-outline-info">Edit
-                      </button>
-                    </div>
-
-                    <div>
-                      <button onClick={() => self.handleDelete(task)} className="btn btn-sm btn-outline-dark delete">-
-                      </button>
+                      <h5>{list.list_name}</h5>
+                      <div>
+                        <button onClick={() => self.handleDeleteList(list)}
+                                className="btn btn-sm btn-outline-dark delete">-
+                        </button>
+                      </div>
+                      <br/>
+                      {list.taski.map((task, index) => {
+                        return (
+                          <div key={index}>
+                            <div style={{flex: 7}}>
+                             <span onClick={() => self.handleComplete(task)}>
+                               {task.completed === false ? (<span><TaskComponent task={task}/></span>) : (
+                                 <del>
+                                   <TaskComponent task={task}/>
+                                 </del>
+                               )}
+                               </span>
+                            </div>
+                            <div>
+                              <button onClick={() => self.handleDelete(task)}
+                                      className="btn btn-sm btn-outline-dark delete">-
+                              </button>
+                            </div>
+                            <div style={{flex: 1}}>
+                              <button onClick={() => self.handleUpdate(task)}
+                                      className="btn btn-sm btn-outline-info">Edit
+                              </button>
+                            </div>
+                          </div>)
+                      })}
                     </div>
                   </div>
                 )
