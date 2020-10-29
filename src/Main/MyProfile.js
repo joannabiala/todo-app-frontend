@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../App.css';
 import {Redirect} from "react-router-dom";
 import TaskComponent from "./TaskComponent";
-import NavbarComponent from "./NavbarComponent";
 import PageTemplateComponent from "./PageTemplateComponent";
 
 
@@ -206,7 +205,6 @@ export default class MyProfile extends React.Component {
   }
 
 
-
   render() {
     let lists = this.state.todoList;
     let self = this;
@@ -217,6 +215,7 @@ export default class MyProfile extends React.Component {
     }
 
     return (
+
       <PageTemplateComponent>
         <div>Start creating your lists!</div>
         <div>
