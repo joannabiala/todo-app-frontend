@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -13,16 +13,15 @@ import MainPage from "./Main/MainPage";
 
 axios.defaults.withCredentials = true;
 
-export default class App extends React.Component {
+const App = () =>{
 
-  componentWillMount() {
+  useEffect(()=>{
     const token = localStorage.getItem('token');
     if (token) {
       axios.defaults.headers.common['Authorization'] = token;
     }
-  }
+  },[])
 
-  render() {
     return (
       <Router>
         <div>
@@ -43,5 +42,7 @@ export default class App extends React.Component {
         </div>
       </Router>
     );
-  }
 }
+
+
+export default App

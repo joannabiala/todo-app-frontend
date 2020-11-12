@@ -1,30 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 import ButtonComponent from "./ButtonComponent";
 import MainNavbarComponent from "./MainNavbarComponent";
 
-class MyProfileNavbarComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectToMain: false,
-    }
-    this.handleLogout = this.handleLogout.bind(this);
-  }
+const MyProfileNavbarComponent =()=>{
+
+  const [redirectToMain, setRedirectToMain]=useState(false)
 
 
-  handleLogout() {
+  const handleLogout =()=> {
     localStorage.removeItem("token");
     delete axios.defaults.headers.common['Authorization'];
-    this.setState({redirectToMain: true})
+    setRedirectToMain(true);
   }
 
 
-  render() {
-    if (this.state.redirectToMain) {
+    if (redirectToMain) {
       return (<Redirect to="/main"/>)
     }
+
 
     return (
       <MainNavbarComponent>
@@ -42,7 +37,7 @@ class MyProfileNavbarComponent extends React.Component {
             <ButtonComponent
               type="button"
               className="btn btn-outline-warning my-2 my-sm-0"
-              handleClick={this.handleLogout}
+              handleClick={handleLogout}
               label="Logout"
             />
           </form>
@@ -50,8 +45,6 @@ class MyProfileNavbarComponent extends React.Component {
       </MainNavbarComponent>
 
     );
-  }
-
 }
 
 export default MyProfileNavbarComponent;

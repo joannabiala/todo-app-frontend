@@ -1,87 +1,63 @@
-import React from "react";
+import React, {useState} from "react";
 import axios from 'axios';
 import {Link, Redirect} from "react-router-dom";
 
 
-export default class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      redirectToLogin: false,
-    }
+const SignIn = () => {
 
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleInputChange = this.handleInputChange.bind(this)
-    this.handlePasswordChange = this.handlePasswordChange.bind(this)
-  }
-
-  handleInputChange(event) {
-    this.setState({
-      username: event.target.value,
-    });
-  }
-
-  handlePasswordChange(event) {
-    this.setState({
-      password: event.target.value,
-    });
-  }
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [redirectToLogin, setRedirectToLogin] = useState(false)
 
 
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = {
-      username: this.state.username,
-      password: this.state.password
+      username: username,
+      password: password
     };
 
     axios.post('http://127.0.0.1:8000/api/user/', data)
       .then((response) => {
         console.log(response);
-        this.setState({redirectToLogin: true});
+        setRedirectToLogin(true);
 
         const token = `Token ${response.data.token}`
         axios.defaults.headers.common['Authorization'] = token;
 
         localStorage.setItem('token', token);
-
-
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
-
-  render() {
-
-    if (this.state.redirectToLogin) {
-      return <Redirect to="/login"/>;
-    }
-
-    return (
-      <div>
-        <h1>Rejestracja</h1>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Username:
-          </label>
-          <input type="text" placeholder="username" onChange={this.handleInputChange} value={this.state.username}/>
-          <label>
-            Password
-          </label>
-          <input
-            type="password"
-            placeholder="password"
-            onChange={this.handlePasswordChange}
-            value={this.state.password}
-          />
-          <button type="submit">Kliknij aby zarejestrować</button>
-        </form>
-      </div>
-    )
+  if (redirectToLogin) {
+    return <Redirect to="/login"/>;
   }
+
+  return (
+    <div>
+      <h1>Rejestracja</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
+        </label>
+        <input type="text" placeholder="username" onChange={(e) => setUsername(e.target.value)} value={username}/>
+        <label>
+          Password
+        </label>
+        <input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <button type="submit">Kliknij aby zarejestrować</button>
+      </form>
+    </div>
+  )
 }
+
+export default SignIn

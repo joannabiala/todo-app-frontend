@@ -6,7 +6,6 @@ const TaskComponent = (props) => {
     <div>
       {props.task.title}
       {props.task.completed}
-
     </div>
   );
 }
