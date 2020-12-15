@@ -1,7 +1,7 @@
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
-
 import TaskComponent from "./TaskComponent";
 import PageTemplateComponent from "./PageTemplateComponent";
 import '../App.css';
@@ -270,10 +270,15 @@ const MyProfile = () => {
                         </button>
                       </div>
                       <br/>
+
+
                       {list.taski.map((task, index) => {
                         return (
-                          <div key={index}>
-                            <div style={{flex: 7}}>
+                          <DragDropContext>
+                            <Droppable droppableId="characters">
+                              {(provided) => (
+                                <ul className="characters" {...provided.droppableProps} ref={provided.innerRef} key={index}>
+                                  <div style={{flex: 7}}>
                              <span onClick={() => handleComplete(task)}>
                                {task.completed === false ? (<span><TaskComponent task={task}/></span>) : (
                                  <del>
@@ -281,25 +286,32 @@ const MyProfile = () => {
                                  </del>
                                )}
                                </span>
-                            </div>
-                            <div>
-                              <button
-                                onClick={() => handleDelete(task)}
-                                className="btn btn-sm btn-outline-dark delete"
-                              >
-                                -
-                              </button>
-                            </div>
-                            <div style={{flex: 1}}>
-                              <button
-                                onClick={() => handleUpdate(task)}
-                                className="btn btn-sm btn-outline-info"
-                              >
-                                Edit
-                              </button>
-                            </div>
-                          </div>)
+                                  </div>
+                                  <div>
+                                    <button
+                                      onClick={() => handleDelete(task)}
+                                      className="btn btn-sm btn-outline-dark delete"
+                                    >
+                                      -
+                                    </button>
+                                  </div>
+                                  <div style={{flex: 1}}>
+                                    <button
+                                      onClick={() => handleUpdate(task)}
+                                      className="btn btn-sm btn-outline-info"
+                                    >
+                                      Edit
+                                    </button>
+                                  </div>
+                                  <hr/>
+                                </ul>
+                              )}
+                            </Droppable>
+                          </DragDropContext>
+                        )
                       })}
+
+
                     </div>
                   </div>
                 )

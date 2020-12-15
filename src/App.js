@@ -15,12 +15,10 @@ axios.defaults.withCredentials = true;
 
 const App = () =>{
 
-  useEffect(()=>{
-    const token = localStorage.getItem('token');
-    if (token) {
-      axios.defaults.headers.common['Authorization'] = token;
-    }
-  },[])
+  const token = localStorage.getItem('token');
+  if (token) {
+    axios.defaults.headers.common['Authorization'] = token;
+  }
 
     return (
       <Router>

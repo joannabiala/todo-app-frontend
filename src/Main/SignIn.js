@@ -18,15 +18,15 @@ const SignIn = () => {
       password: password
     };
 
-    axios.post('http://127.0.0.1:8000/api/user/', data)
+    axios.post('http://127.0.0.1:8000/api/registration/', data)
       .then((response) => {
         console.log(response);
-        setRedirectToLogin(true);
+          setRedirectToLogin(true);
 
-        const token = `Token ${response.data.token}`
-        axios.defaults.headers.common['Authorization'] = token;
+          const token = `Token ${response.data.token}`
+          axios.defaults.headers.common['Authorization'] = token;
 
-        localStorage.setItem('token', token);
+          localStorage.setItem('token', token);
       })
       .catch((error) => {
         console.log(error);
