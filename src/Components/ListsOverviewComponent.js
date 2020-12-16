@@ -2,7 +2,7 @@ import React from "react";
 
 const ListsOverviewComponent = ()=>{
   return(
-    <div id="footerComponent">
+    <div className="col-4" id="ListsOverviewComponent">
 
     </div>
   )

@@ -1,10 +1,11 @@
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import {Redirect} from "react-router-dom";
-import TaskComponent from "./TaskComponent";
-import PageTemplateComponent from "./PageTemplateComponent";
 import '../App.css';
+import PageTemplateComponent from "../Components/PageTemplateComponent";
+import NavbarComponent from "../Components/NavbarComponent";
+import JumbotronComponent from "../Components/JumbotronComponent";
+import CalendarComponent from "../Components/CalendarComponent";
 
 
 const MyProfile = () => {
@@ -183,142 +184,125 @@ const MyProfile = () => {
 
 
   return (
-
     <PageTemplateComponent>
-      <div>
-        <div className="container">
-          <div id="task-container">
-
-            {isLoadingContent ? (<div/>) :
-              todoList.length === 0 && addingList === false ? (
-                  <button onClick={addList}>
-                    Jakiś buton
-                  </button>)
-                :
-                (<div id="form-wrapper">
-                    <form onSubmit={handleSubmitListName} id="form">
-                      <div className="flex-wrapper">
-                        <div style={{flex: 6}}>
-                          <input
-                            className="form-control"
-                            id="title"
-                            name="title"
-                            placeholder="nazwa listy"
-                            onChange={(e) => setList_name(e.target.value)}
-                            value={list_name}
-                          />
-                        </div>
-                        <div style={{flex: 1}}>
-
-                          <input
-                            id="submit"
-                            className="btn btn-warning"
-                            type="submit"
-                            name="add"
-                          />
-
-                        </div>
-                      </div>
-                    </form>
-                    <form onSubmit={handleSubmitTask} id="form">
-                      <div className="flex-wrapper">
-                        <div style={{flex: 6}}>
-                          <input
-                            className="form-control"
-                            id="title"
-                            name="title"
-                            placeholder="nazwa taska"
-                            onChange={handleChange}
-                            value={activeItem.title}
-                          />
-
-                          <input
-                            className="form-control"
-                            placeholder="id listy"
-                            onChange={handleChangeListID}
-                            value={activeItem.list}
-                          />
-
-                        </div>
-                        <div style={{flex: 1}}>
-                          <input
-                            id="submit"
-                            className="btn btn-warning"
-                            type="submit"
-                            name="add"
-                          />
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                )
-
-            }
-
-            <div id="list-wrapper">
-              {lists.map((list, index) => {
-                return (
-                  <div key={index} className="task-wrapper flex-wrapper ">
-                    <div style={{flex: 7}}>
-                      <h5>{list.list_name}</h5>
+      <NavbarComponent/>
+      <JumbotronComponent/>
+      <div className="row">
+        <div className="col-4">
+          {isLoadingContent ? (<div/>) :
+            todoList.length === 0 && addingList === false ? (
+                <button onClick={addList}>
+                  Jakiś buton
+                </button>)
+              :
+              (<div>
+                  <form onSubmit={handleSubmitListName} id="form">
+                    <div>
                       <div>
-                        <button
-                          onClick={() => handleDeleteList(list)}
-                          className="btn btn-sm btn-outline-dark delete"
-                        >
-                          -
-                        </button>
+                        <input
+
+                          id="title"
+                          name="title"
+                          placeholder="nazwa listy"
+                          onChange={(e) => setList_name(e.target.value)}
+                          value={list_name}
+                        />
                       </div>
-                      <br/>
+                      <div>
+                        <input
+                          id="submit"
+                          className="btn btn-warning"
+                          type="submit"
+                          name="add"
+                        />
+                      </div>
+                    </div>
+                  </form>
+                  <form onSubmit={handleSubmitTask} id="form">
+                    <div>
+                      <input
+
+                        id="title"
+                        name="title"
+                        placeholder="nazwa taska"
+                        onChange={handleChange}
+                        value={activeItem.title}
+                      />
+
+                      <input
+                        className="form-control"
+                        placeholder="id listy"
+                        onChange={handleChangeListID}
+                        value={activeItem.list}
+                      />
+
+                      <input
+                        id="submit"
+                        className="btn btn-warning"
+                        type="submit"
+                        name="add"
+                      />
+                    </div>
+                  </form>
+                </div>
+              )
+          }
+        </div>
+
+        <div className="col-5">
+          {lists.map((list, index) => {
+            return (
+              <div key={index}>
+                <div>
+                  <h5>{list.list_name}</h5>
+                  <div>
+                    <button
+                      onClick={() => handleDeleteList(list)}
+                    >
+                      -
+                    </button>
+                  </div>
+                  <br/>
 
 
-                      {list.taski.map((task, index) => {
-                        return (
-                          <DragDropContext>
-                            <Droppable droppableId="characters">
-                              {(provided) => (
-                                <ul className="characters" {...provided.droppableProps} ref={provided.innerRef} key={index}>
-                                  <div style={{flex: 7}}>
+                  {list.taski.map((task, index) => {
+                    return (
+                      <div>
+                        <div>
                              <span onClick={() => handleComplete(task)}>
-                               {task.completed === false ? (<span><TaskComponent task={task}/></span>) : (
+                               {task.completed === false ? (<span>{task.title}
+                                 {task.completed}</span>) : (
                                  <del>
-                                   <TaskComponent task={task}/>
+                                   {task.title}
+                                   {task.completed}
                                  </del>
                                )}
                                </span>
-                                  </div>
-                                  <div>
-                                    <button
-                                      onClick={() => handleDelete(task)}
-                                      className="btn btn-sm btn-outline-dark delete"
-                                    >
-                                      -
-                                    </button>
-                                  </div>
-                                  <div style={{flex: 1}}>
-                                    <button
-                                      onClick={() => handleUpdate(task)}
-                                      className="btn btn-sm btn-outline-info"
-                                    >
-                                      Edit
-                                    </button>
-                                  </div>
-                                  <hr/>
-                                </ul>
-                              )}
-                            </Droppable>
-                          </DragDropContext>
-                        )
-                      })}
-
-
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
+                        </div>
+                        <div>
+                          <button
+                            onClick={() => handleDelete(task)}
+                          >
+                            -
+                          </button>
+                        </div>
+                        <div>
+                          <button
+                            onClick={() => handleUpdate(task)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                        <hr/>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
         </div>
+        <CalendarComponent/>
       </div>
     </PageTemplateComponent>
   )

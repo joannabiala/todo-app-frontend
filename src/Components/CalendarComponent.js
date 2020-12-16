@@ -2,8 +2,7 @@ import React from "react";
 
 const CalendarComponent = ()=>{
   return(
-    <div id="calendarComponent">
-
+    <div className="col-3" id="calendarComponent">
     </div>
   )
 }
