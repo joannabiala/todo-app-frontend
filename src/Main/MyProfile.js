@@ -1,10 +1,7 @@
 import React from "react";
 import "../css/app.css";
 import PageTemplateComponent from "../Components/PageTemplateComponent";
-import NavbarComponent from "../Components/NavbarComponent";
-import JumbotronComponent from "../Components/JumbotronComponent";
 import CalendarComponent from "../Components/CalendarComponent";
-import ListsOverviewComponent from "../Components/ListsOverviewComponent";
 import MainEditorComponent from "../Components/MainEditorComponent";
 import ListsAndTasksDisplayingComponent from "../Components/ListsAndTasksDisplayingComponent";
 
@@ -12,15 +9,26 @@ import ListsAndTasksDisplayingComponent from "../Components/ListsAndTasksDisplay
 const MyProfile = () => {
 
   return (
+    <div className="mainWrapper">
     <PageTemplateComponent>
-      <NavbarComponent/>
-      <JumbotronComponent/>
+      <div className="row" id="box">
+        <div id="headerWrapper" className="col-12">
+        <div className="jumbotron jumbotron-fluid">
+          <div className="container">
+            <h1 className="display-4">Fluid jumbotron</h1>
+            <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its
+              parent.</p>
+          </div>
+        </div>
+        </div>
+      </div>
       <div id="mainColumns" className="row d-flex justify-content-between">
         <ListsAndTasksDisplayingComponent/>
         <MainEditorComponent/>
         <CalendarComponent/>
       </div>
     </PageTemplateComponent>
+    </div>
   )
 }
 

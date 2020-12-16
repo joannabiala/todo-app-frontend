@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faEdit} from '@fortawesome/free-solid-svg-icons'
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+
 
 const ListsAndTasksDisplayingComponent = () => {
   const [todoList, setTodoList] = useState([])
@@ -83,54 +87,50 @@ const ListsAndTasksDisplayingComponent = () => {
   }
 
   return (
-      <div id="leftComponent"  className="col-3" >
-        {lists.map((list, index) => {
-          return (
-            <div key={index}>
+    <div id="leftComponent" className="col-3">
+      <h4 id="leftComponentTitle">My lists of tasks:</h4>
+      {lists.map((list, index) => {
+        return (
+          <div id="listGroupWrapper" className="list-group" key={index}>
+            <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
               <div>
-                <h5>{list.list_name}</h5>
+                <h5 id="listName">{list.list_name}</h5>
                 <div>
-                  <button onClick={() => handleDeleteList(list)}>
-                    -
-                  </button>
+                  <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
                 </div>
                 <br/>
 
-
                 {list.taski.map((task, index) => {
                   return (
-                    <div>
-                      <div>
+                    <div id="tasksWrapper">
+                      <div id="taskTitle">
                         <span onClick={() => handleComplete(task)}>
                           {task.completed === false ? (<span>{task.title}
                             {task.completed}</span>) : (
                             <del>
-                              {task.title}
+                              <p> {task.title} </p>
                               {task.completed}
                             </del>
                           )}
                         </span>
                       </div>
                       <div>
-                        <button onClick={() => handleDelete(task)}>
-                          -
-                        </button>
+                        <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
                       </div>
                       <div>
-                        <button onClick={() => handleUpdate(task)}>
-                          Edit
-                        </button>
+                        <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
                       </div>
                       <hr/>
                     </div>
                   )
                 })}
               </div>
-            </div>
-          )
-        })}
-      </div>
-    )
+            </p>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 export default ListsAndTasksDisplayingComponent;

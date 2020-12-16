@@ -19,26 +19,24 @@ const NavbarComponent = () => {
   }
 
   return (
-    <nav>
-      <div className="row">
-        <div className="col-5" id="logo">
-          <h4>
-            ToDooo!
-          </h4>
-        </div>
-        <div className="col-7 d-flex flex-row-reverse">
-          <button
-            type="button"
-            handleClick={handleLogout}
-          >
-            Settings
-          </button>
-          <button>
-            Logout
-          </button>
-        </div>
+    <div className="row">
+      <div id="logo">
+        <h4>
+          ToDooo!
+        </h4>
       </div>
-    </nav>
+      <div className=" d-flex flex-row-reverse">
+        <button
+          type="button"
+          handleClick={handleLogout}
+        >
+          Settings
+        </button>
+        <button>
+          Logout
+        </button>
+      </div>
+    </div>
   )
 }
 
