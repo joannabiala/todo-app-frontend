@@ -6,6 +6,7 @@ import JumbotronComponent from "../Components/JumbotronComponent";
 import CalendarComponent from "../Components/CalendarComponent";
 import ListsOverviewComponent from "../Components/ListsOverviewComponent";
 import MainEditorComponent from "../Components/MainEditorComponent";
+import ListsAndTasksDisplayingComponent from "../Components/ListsAndTasksDisplayingComponent";
 
 
 const MyProfile = () => {
@@ -14,11 +15,10 @@ const MyProfile = () => {
     <PageTemplateComponent>
       <NavbarComponent/>
       <JumbotronComponent/>
-      <div className="row">
-
-      <ListsOverviewComponent/>
-      <MainEditorComponent/>
-      <CalendarComponent/>
+      <div id="mainColumns" className="row d-flex justify-content-between">
+        <ListsAndTasksDisplayingComponent/>
+        <MainEditorComponent/>
+        <CalendarComponent/>
       </div>
     </PageTemplateComponent>
   )

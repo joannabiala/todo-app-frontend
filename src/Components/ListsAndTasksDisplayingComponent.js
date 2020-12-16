@@ -1,7 +1,7 @@
-import React, {useState, useEffect  } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 
-const ListsAndTasksDisplayingComponent = ()=>{
+const ListsAndTasksDisplayingComponent = () => {
   const [todoList, setTodoList] = useState([])
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -82,18 +82,15 @@ const ListsAndTasksDisplayingComponent = ()=>{
     }
   }
 
-  return(
-    <div id="ListsAndTasksDisplayingComponent">
-      <div >
+  return (
+      <div id="leftComponent"  className="col-3" >
         {lists.map((list, index) => {
           return (
             <div key={index}>
               <div>
                 <h5>{list.list_name}</h5>
                 <div>
-                  <button
-                    onClick={() => handleDeleteList(list)}
-                  >
+                  <button onClick={() => handleDeleteList(list)}>
                     -
                   </button>
                 </div>
@@ -104,27 +101,23 @@ const ListsAndTasksDisplayingComponent = ()=>{
                   return (
                     <div>
                       <div>
-                             <span onClick={() => handleComplete(task)}>
-                               {task.completed === false ? (<span>{task.title}
-                                 {task.completed}</span>) : (
-                                 <del>
-                                   {task.title}
-                                   {task.completed}
-                                 </del>
-                               )}
-                               </span>
+                        <span onClick={() => handleComplete(task)}>
+                          {task.completed === false ? (<span>{task.title}
+                            {task.completed}</span>) : (
+                            <del>
+                              {task.title}
+                              {task.completed}
+                            </del>
+                          )}
+                        </span>
                       </div>
                       <div>
-                        <button
-                          onClick={() => handleDelete(task)}
-                        >
+                        <button onClick={() => handleDelete(task)}>
                           -
                         </button>
                       </div>
                       <div>
-                        <button
-                          onClick={() => handleUpdate(task)}
-                        >
+                        <button onClick={() => handleUpdate(task)}>
                           Edit
                         </button>
                       </div>
@@ -137,8 +130,7 @@ const ListsAndTasksDisplayingComponent = ()=>{
           )
         })}
       </div>
-    </div>
-  )
+    )
 }
 
 export default ListsAndTasksDisplayingComponent;

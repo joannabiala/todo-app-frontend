@@ -2,4 +2,30 @@
   padding: 1%;
 }
 
+#leftComponent {
+  background-color: aliceblue;
+  border: 2px;
+  border-radius: 25px;
+  padding: 2%;
+}
+
+#centerComponent {
+  background-color: aliceblue !important;
+  border: 2px;
+  border-radius: 25px;
+  padding: 2%;
+}
+
+#rightComponent {
+  background-color: aliceblue !important;
+  border: 2px;
+  border-radius: 25px;
+  padding: 2%;
+}
+
+#mainColumns {
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
 /*# sourceMappingURL=app.css.map */

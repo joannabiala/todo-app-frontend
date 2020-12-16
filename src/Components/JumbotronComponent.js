@@ -6,9 +6,12 @@ const JumbotronComponent = () =>{
       <div className="col-12">
         <div className="jumbotron jumbotron-fluid">
           <div className="container">
-            <h1 className="display-4">Fluid jumbotron</h1>
-            <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its
-              parent.</p>
+            <h5 className="display-4">
+              Hello you!
+            </h5>
+            <p className="lead">
+              organize your day, start creating lists!
+            </p>
           </div>
         </div>
       </div>

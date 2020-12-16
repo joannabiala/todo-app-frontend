@@ -121,8 +121,7 @@ const MainEditorComponent = (props) => {
 
   return (
     <div className="col-5" id="mainEditorComponent">
-      <div className="row">
-
+      <div id="centerComponent" className="row">
         <div>
           {isLoadingContent ? (<div/>) :
             todoList.length === 0 && addingList === false ? (
