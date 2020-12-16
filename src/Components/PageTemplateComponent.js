@@ -1,9 +1,11 @@
 import React from "react";
 
-const PageTemplateComponent = (props) =>{
-  return(
+const PageTemplateComponent = (props) => {
+  return (
     <div id="pageTemplateComponent">
-      {props.children}
+      <div>
+        {props.children}
+      </div>
     </div>
   )
 }

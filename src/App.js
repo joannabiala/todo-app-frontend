@@ -10,6 +10,7 @@ import SignIn from "./Main/SignIn";
 import LogIn from "./Main/Login";
 import MyProfile from "./Main/MyProfile";
 import MainPage from "./Main/MainPage";
+import "./css/app.css";
 
 axios.defaults.withCredentials = true;
 
