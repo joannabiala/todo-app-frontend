@@ -3,10 +3,11 @@ import axios from "axios";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit} from '@fortawesome/free-solid-svg-icons'
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
-import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
 
-const ListsAndTasksComponent = ({onIndexChange, onListChange}) => {
+const ListsAndTasksComponent = ({onListChange}) => {
   const [todoList, setTodoList] = useState([])
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -91,32 +92,31 @@ const ListsAndTasksComponent = ({onIndexChange, onListChange}) => {
   }
 
   return (
-    <div id="leftComponent" className="col-3">
-      <div className="row">
-        <div className="d-flex flex-row col-8">
-          <h4 id="leftComponentTitle">My lists of tasks: </h4>
-        </div>
-        <div className="col-4 d-flex flex-row-reverse">
-          <FontAwesomeIcon icon={faPlusSquare}/>
-        </div>
-      </div>
 
-      {lists.map((list, index) => {
-        return (
-          <div /*onClick={()=>onIndexChange(index)}*/ onClick={() => onListChange(list)} id="listGroupWrapper"
-                                                      className="list-group" key={index}>
-            <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
-              <div>
-                <h5 id="listName">{list.list_name}</h5>
+    <div id="leftSideComponent" className="root col-3">
+      <div className="scrollIt">
+        <div className="row">
+          <div className="d-flex flex-row col-8">
+            <h4 id="leftComponentTitle">My lists of tasks: </h4>
+          </div>
+        </div>
+        {lists.map((list, index) => {
+          return (
+            <div onClick={() => onListChange(list)}
+                 className="list-group" key={index}
+            >
+              <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
                 <div>
-                  <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
-                </div>
-                <br/>
+                  <h5 id="listName">{list.list_name}</h5>
+                  <div>
+                    <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
+                  </div>
+                  <br/>
 
-                {list.taski.map((task, index) => {
-                  return (
-                    <div id="tasksWrapper">
-                      <div id="taskTitle">
+                  {list.taski.map((task, index) => {
+                    return (
+                      <div id="tasksWrapper">
+                        <div id="taskTitle">
                         <span onClick={() => handleComplete(task)}>
                           {task.completed === false ? (<span>{task.title}
                             {task.completed}</span>) : (
@@ -126,22 +126,23 @@ const ListsAndTasksComponent = ({onIndexChange, onListChange}) => {
                             </del>
                           )}
                         </span>
+                        </div>
+                        <div>
+                          <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+                        </div>
+                        <div>
+                          <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
+                        </div>
+                        <hr/>
                       </div>
-                      <div>
-                        <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
-                      </div>
-                      <div>
-                        <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
-                      </div>
-                      <hr/>
-                    </div>
-                  )
-                })}
-              </div>
-            </p>
-          </div>
-        )
-      })}
+                    )
+                  })}
+                </div>
+              </p>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

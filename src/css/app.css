@@ -5,7 +5,7 @@
 .jumbotron {
   background: none;
   color: white;
-  height: 40vh;
+  height: 70vh;
   background: #fb5058 !important;
   background: linear-gradient(70deg, #fb5058 0%, #7a298d 41%, #8084f3 76%, #d76ac2 100%) !important;
 }
@@ -161,18 +161,33 @@
 }
 
 #pageTemplateComponent {
-  margin: 2%;
+  margin: 1.5%;
 }
 
 #mainWrapper {
-  height: 99vh;
+  height: 96vh;
 }
 
-#leftComponent {
+#leftSideComponent {
   background-color: white;
   border: 2px;
-  border-radius: 25px;
   padding: 2%;
+  height: 70vh;
+  border-radius: 25px !important;
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+#mainEditorComponent {
+  background-color: white;
+  border: 2px;
+  padding: 2%;
+  height: 70vh;
+  border-radius: 25px !important;
+  display: inline-block;
+  overflow: hidden;
+  margin-top: 0;
 }
 
 #centerComponent {
@@ -180,6 +195,7 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
+  height: 70vh;
 }
 
 #rightComponent {
@@ -187,17 +203,29 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
+  height: 70vh;
 }
 
 #mainColumns {
-  background-color: aliceblue;
+  background-color: #eef2f5;
   padding-left: 5%;
   padding-right: 5%;
+  margin-top: -45vh;
 }
 
 #listWrapper {
   border-left: 6px solid fuchsia;
   border-radius: 6px;
+}
+
+#leftComponent {
+  max-height: 55vh;
+}
+
+.scrollIt {
+  height: 60vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #box {

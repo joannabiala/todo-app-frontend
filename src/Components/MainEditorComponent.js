@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faEdit, faPlusSquare, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 const MainEditorComponent = ({index, list}) => {
   const [todoList, setTodoList] = useState([])
@@ -17,7 +17,8 @@ const MainEditorComponent = ({index, list}) => {
   const [redirectToMain, setRedirectToMain] = useState(false)
   const [addingList, setAddingList] = useState(false)
   const [isLoadingContent, setIsLoadingContent] = useState(true)
-
+  const [isToggled, setToggled] = useState(false);
+  const toggleTrueFalse = () => setToggled(!isToggled);
 
   const handleChangeListID = (event) => {
     const updatedActiveItem = {...activeItem}
@@ -171,7 +172,7 @@ const MainEditorComponent = ({index, list}) => {
 
   const renderClickedList = (list) => {
     return (
-      <div className="list-group">
+      <div className="list-group col-12">
         <p id="listWrapper" href="#" className="col-12 d-flex flex-row list-group-item flex-column">
           <h5 id="listName">
             {list.list_name}
@@ -214,68 +215,72 @@ const MainEditorComponent = ({index, list}) => {
   }
 
 
-  return (
-    <div className="col-5" id="mainEditorComponent">
-      <div id="centerComponent" className="row">
-        <div>
-          {list ? renderClickedList(list) : null}
+  const showForm = () => {
+    return (
+      <div className="col-12">
+        <form id="form">
+          <div>
+            <input
+              id="title"
+              className="form-control"
+              name="title"
+              placeholder="nazwa listy"
+              onChange={(e) => setList_name(e.target.value)}
+              value={list_name}
+            />
+          </div>
+          <div>
+            <button
+              onClick={handleSubmitListName}
+              id="submit"
+              className="btn btn-warning"
+              type="submit"
+              name="add"
+            />
+          </div>
 
-          {isLoadingContent ? (<div/>) :
-            todoList.length === 0 && addingList === false ? (
-                <h5>Add new task, or choose List to add new ones!</h5>)
-              :
-              (<div>
-                  <form onSubmit={handleSubmitListName} id="form">
-                    <div>
-                      <div>
-                        <input
-                          id="title"
-                          name="title"
-                          placeholder="nazwa listy"
-                          onChange={(e) => setList_name(e.target.value)}
-                          value={list_name}
-                        />
-                      </div>
-                      <div>
-                        <input
-                          id="submit"
-                          className="btn btn-warning"
-                          type="submit"
-                          name="add"
-                        />
-                      </div>
-                    </div>
-                  </form>
-                  <form onSubmit={handleSubmitTask} id="form">
-                    <div>
-                      <input
-                        id="title"
-                        name="title"
-                        placeholder="nazwa taska"
-                        onChange={handleChange}
-                        value={activeItem.title}
-                      />
-                      <input
-                        className="form-control"
-                        placeholder="id listy"
-                        onChange={handleChangeListID}
-                        value={activeItem.list}
-                      />
-                      <input
-                        id="submit"
-                        className="btn btn-warning"
-                        type="submit"
-                        name="add"
-                      />
-                    </div>
-                  </form>
-                </div>
-              )
-          }
+        </form>
+        <form onSubmit={handleSubmitTask} id="form">
+          <div>
+            <input
+              id="title"
+              className="form-control"
+              name="title"
+              placeholder="nazwa taska"
+              onChange={handleChange}
+              value={activeItem.title}
+            />
+            <input
+              className="form-control"
+              placeholder="id listy"
+              onChange={handleChangeListID}
+              value={activeItem.list}
+            />
+            <input
+              id="submit"
+              className="form-control"
+              type="submit"
+              name="add"
+            />
+          </div>
+        </form>
+      </div>
+
+    )
+  }
+
+  return (
+    <div id="mainEditorComponent" className="root col-5">
+      <div className="scrollIt">
+        <div id="centerComponent" className="row">
+          <div onClick={() => toggleTrueFalse()} className="">
+            <FontAwesomeIcon icon={faPlusSquare}/>
+          </div>
+          {isToggled ? showForm() : <div> Add new list or choose existing one to edit </div>}
+          {list ? renderClickedList(list) : null}
         </div>
       </div>
     </div>
-
   )
 }
 
