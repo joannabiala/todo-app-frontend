@@ -6,7 +6,7 @@ import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 
 
-const ListsAndTasksDisplayingComponent = ({ onIndexChange, onListChange }) => {
+const ListsAndTasksDisplayingComponent = ({onIndexChange, onListChange}) => {
   const [todoList, setTodoList] = useState([])
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -28,6 +28,8 @@ const ListsAndTasksDisplayingComponent = ({ onIndexChange, onListChange }) => {
       console.log(error)
     })
   }
+
+
   const handleComplete = (task) => {
 
     task.completed = !task.completed
@@ -101,7 +103,8 @@ const ListsAndTasksDisplayingComponent = ({ onIndexChange, onListChange }) => {
 
       {lists.map((list, index) => {
         return (
-          <div onClick={()=>onIndexChange(index)}  /*onClick={()=>onListChange(list)}*/ id="listGroupWrapper" className="list-group" key={index}>
+          <div /*onClick={()=>onIndexChange(index)}*/ onClick={() => onListChange(list)} id="listGroupWrapper"
+                                                      className="list-group" key={index}>
             <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
               <div>
                 <h5 id="listName">{list.list_name}</h5>

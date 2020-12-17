@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEdit, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
 const MainEditorComponent = ({index, list}) => {
   const [todoList, setTodoList] = useState([])
@@ -119,18 +121,108 @@ const MainEditorComponent = ({index, list}) => {
     return (<Redirect to="/main"/>)
   }
 
+
+  const handleDeleteList = (list) => {
+    axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
+      (response) => {
+        fetchTasks()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
+  const handleComplete = (task) => {
+
+    task.completed = !task.completed
+    console.log(task.title)
+    console.log(task.completed)
+
+    axios.patch('http://127.0.0.1:8000/api/tasks/' + task.id + '/', task).then(
+      (response) => {
+        setActiveItem(task.completed)
+        console.log(response)
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
+  const handleUpdate = (task) => {
+    setEditing(true)
+
+    if (editing === true) {
+      setActiveItem({
+        title: task.title,
+        id: task.id,
+        completed: task.completed
+      })
+    }
+  }
+
+
+  const handleDelete = (task) => {
+    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+      (response) => {
+        fetchTasks()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
+  const renderList = (list) => {
+    return (
+      <div>
+        <h5 id="listName">{list.list_name}
+          <div>
+            <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
+          </div>
+        </h5>
+
+        {list.taski.map((task, index) => {
+          return (
+            <div id="tasksWrapper">
+              <div id="taskTitle">
+                        <span onClick={() => handleComplete(task)}>
+                          {task.completed === false ? (<span>{task.title}
+                            {task.completed}</span>) : (
+                            <del>
+                              <p> {task.title} </p>
+                              {task.completed}
+                            </del>
+                          )}
+                        </span>
+              </div>
+              <div>
+                <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+              </div>
+              <div>
+                <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
+              </div>
+              <hr/>
+            </div>
+          )
+        })
+        }
+      </div>
+    )
+  }
+
+
   return (
     <div className="col-5" id="mainEditorComponent">
       <div id="centerComponent" className="row">
         <div>
-          <button onClick={()=>(console.log("index:" +index))}>
-            jakiś buton
-          </button>
+          {renderList(list)}
+
           {isLoadingContent ? (<div/>) :
             todoList.length === 0 && addingList === false ? (
-                <button onClick={addList}>
-                  Jakiś buton
-                </button>)
+                <h5>Add new task, or choose List to add new ones!</h5>)
               :
               (<div>
                   <form onSubmit={handleSubmitListName} id="form">
@@ -157,7 +249,6 @@ const MainEditorComponent = ({index, list}) => {
                   <form onSubmit={handleSubmitTask} id="form">
                     <div>
                       <input
-
                         id="title"
                         name="title"
                         placeholder="nazwa taska"

@@ -9,7 +9,9 @@ import ListsAndTasksDisplayingComponent from "../Components/ListsAndTasksDisplay
 const MyProfile = () => {
 
   const [index, setIndex] = useState(0)
-  const [list, setList] = useState(0)
+  const [list, setList] = useState({
+    taski: []
+  })
 
   return (
     <div className="mainWrapper">
