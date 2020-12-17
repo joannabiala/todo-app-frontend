@@ -6,7 +6,7 @@ import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 
 
-const ListsAndTasksDisplayingComponent = ({onIndexChange, onListChange}) => {
+const ListsAndTasksComponent = ({onIndexChange, onListChange}) => {
   const [todoList, setTodoList] = useState([])
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -146,4 +146,4 @@ const ListsAndTasksDisplayingComponent = ({onIndexChange, onListChange}) => {
   )
 }
 
-export default ListsAndTasksDisplayingComponent;
+export default ListsAndTasksComponent;

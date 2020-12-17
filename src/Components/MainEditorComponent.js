@@ -13,7 +13,6 @@ const MainEditorComponent = ({index, list}) => {
     completed: false,
     list: ''
   })
-
   const [editing, setEditing] = useState(false)
   const [redirectToMain, setRedirectToMain] = useState(false)
   const [addingList, setAddingList] = useState(false)
@@ -23,7 +22,6 @@ const MainEditorComponent = ({index, list}) => {
   const handleChangeListID = (event) => {
     const updatedActiveItem = {...activeItem}
     updatedActiveItem.list = event.target.value
-
     setActiveItem(updatedActiveItem)
   }
 
@@ -51,10 +49,8 @@ const MainEditorComponent = ({index, list}) => {
     axios.get('http://127.0.0.1:8000/api/list/')
       .then((response) => {
         console.log(response)
-
         setTodoList(response.data)
         setIsLoadingContent(false)
-
         console.log(todoList)
       })
       .catch((error) => {
@@ -65,7 +61,6 @@ const MainEditorComponent = ({index, list}) => {
 
   const handleSubmitTask = (event) => {
     event.preventDefault();
-
     if (editing === true) {
       axios.put('http://127.0.0.1:8000/api/tasks/' + activeItem.id + '/', activeItem).then(
         (response) => {
@@ -85,7 +80,6 @@ const MainEditorComponent = ({index, list}) => {
             title: '',
             completed: false,
           })
-
           console.log(response);
           fetchTasks()
         })
@@ -135,7 +129,6 @@ const MainEditorComponent = ({index, list}) => {
 
 
   const handleComplete = (task) => {
-
     task.completed = !task.completed
     console.log(task.title)
     console.log(task.completed)
@@ -149,6 +142,7 @@ const MainEditorComponent = ({index, list}) => {
       console.log(error)
     })
   }
+
 
   const handleUpdate = (task) => {
     setEditing(true)
@@ -175,40 +169,46 @@ const MainEditorComponent = ({index, list}) => {
   }
 
 
-  const renderList = (list) => {
+  const renderClickedList = (list) => {
     return (
-      <div>
-        <h5 id="listName">{list.list_name}
-          <div>
-            <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
-          </div>
-        </h5>
-
-        {list.taski.map((task, index) => {
-          return (
-            <div id="tasksWrapper">
-              <div id="taskTitle">
-                        <span onClick={() => handleComplete(task)}>
-                          {task.completed === false ? (<span>{task.title}
-                            {task.completed}</span>) : (
-                            <del>
-                              <p> {task.title} </p>
-                              {task.completed}
-                            </del>
-                          )}
-                        </span>
+      <div className="list-group">
+        <p id="listWrapper" href="#" className="col-12 d-flex flex-row list-group-item flex-column">
+          <h5 id="listName">
+            {list.list_name}
+          </h5>
+          {list.taski.map((task) => {
+            return (
+              <div id="tasksWrapper">
+                <div id="taskTitle">
+                <span onClick={() => handleComplete(task)}>
+                  {task.completed === false
+                    ?
+                    (<span>
+                      {task.title}
+                      {task.completed}
+                    </span>)
+                    :
+                    (<del>
+                        <p>
+                          {task.title}
+                        </p>
+                        {task.completed}
+                      </del>
+                    )}
+                </span>
+                </div>
+                <div>
+                  <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+                </div>
+                <div>
+                  <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
+                </div>
+                <hr/>
               </div>
-              <div>
-                <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
-              </div>
-              <div>
-                <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
-              </div>
-              <hr/>
-            </div>
-          )
-        })
-        }
+            )
+          })
+          }
+        </p>
       </div>
     )
   }
@@ -218,7 +218,7 @@ const MainEditorComponent = ({index, list}) => {
     <div className="col-5" id="mainEditorComponent">
       <div id="centerComponent" className="row">
         <div>
-          {renderList(list)}
+          {list ? renderClickedList(list) : null}
 
           {isLoadingContent ? (<div/>) :
             todoList.length === 0 && addingList === false ? (
@@ -255,14 +255,12 @@ const MainEditorComponent = ({index, list}) => {
                         onChange={handleChange}
                         value={activeItem.title}
                       />
-
                       <input
                         className="form-control"
                         placeholder="id listy"
                         onChange={handleChangeListID}
                         value={activeItem.list}
                       />
-
                       <input
                         id="submit"
                         className="btn btn-warning"

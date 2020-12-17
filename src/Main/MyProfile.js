@@ -3,15 +3,13 @@ import "../css/app.css";
 import PageTemplateComponent from "../Components/PageTemplateComponent";
 import CalendarComponent from "../Components/CalendarComponent";
 import MainEditorComponent from "../Components/MainEditorComponent";
-import ListsAndTasksDisplayingComponent from "../Components/ListsAndTasksDisplayingComponent";
+import ListsAndTasksComponent from "../Components/ListsAndTasksComponent";
 
 
 const MyProfile = () => {
 
   const [index, setIndex] = useState(0)
-  const [list, setList] = useState({
-    taski: []
-  })
+  const [list, setList] = useState(null)
 
   return (
     <div className="mainWrapper">
@@ -28,7 +26,7 @@ const MyProfile = () => {
         </div>
       </div>
       <div id="mainColumns" className="row d-flex justify-content-between">
-        <ListsAndTasksDisplayingComponent
+        <ListsAndTasksComponent
           onIndexChange={(index1) => setIndex(index1)}
           onListChange={(list1)=> setList(list1)}
         />
