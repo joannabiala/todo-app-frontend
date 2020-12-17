@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 
-const MainEditorComponent = (props) => {
+const MainEditorComponent = ({index, list}) => {
   const [todoList, setTodoList] = useState([])
   const [list_name, setList_name] = useState('')
   const [activeItem, setActiveItem] = useState({
@@ -123,6 +123,9 @@ const MainEditorComponent = (props) => {
     <div className="col-5" id="mainEditorComponent">
       <div id="centerComponent" className="row">
         <div>
+          <button onClick={()=>(console.log("index:" +index))}>
+            jakiś buton
+          </button>
           {isLoadingContent ? (<div/>) :
             todoList.length === 0 && addingList === false ? (
                 <button onClick={addList}>

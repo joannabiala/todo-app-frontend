@@ -3,9 +3,10 @@ import axios from "axios";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit} from '@fortawesome/free-solid-svg-icons'
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPlusSquare} from "@fortawesome/free-solid-svg-icons";
 
 
-const ListsAndTasksDisplayingComponent = () => {
+const ListsAndTasksDisplayingComponent = ({ onIndexChange, onListChange }) => {
   const [todoList, setTodoList] = useState([])
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -53,6 +54,7 @@ const ListsAndTasksDisplayingComponent = () => {
       console.log(error)
     })
   }
+
   useEffect(() => {
     fetchTasks()
   }, [])
@@ -88,10 +90,18 @@ const ListsAndTasksDisplayingComponent = () => {
 
   return (
     <div id="leftComponent" className="col-3">
-      <h4 id="leftComponentTitle">My lists of tasks:</h4>
+      <div className="row">
+        <div className="d-flex flex-row col-8">
+          <h4 id="leftComponentTitle">My lists of tasks: </h4>
+        </div>
+        <div className="col-4 d-flex flex-row-reverse">
+          <FontAwesomeIcon icon={faPlusSquare}/>
+        </div>
+      </div>
+
       {lists.map((list, index) => {
         return (
-          <div id="listGroupWrapper" className="list-group" key={index}>
+          <div onClick={()=>onIndexChange(index)}  /*onClick={()=>onListChange(list)}*/ id="listGroupWrapper" className="list-group" key={index}>
             <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
               <div>
                 <h5 id="listName">{list.list_name}</h5>
