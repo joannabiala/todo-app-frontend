@@ -74,8 +74,8 @@ const MainEditorComponent = ({list}) => {
 
   const renderClickedList = (list) => {
     return (
-      <div onClick={console.log("dupa" + list.id)} className="list-group col-12">
-        <p id="listWrapper" href="#" className="col-12 d-flex flex-row list-group-item flex-column">
+      <div className="col-12">
+        <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
           <h5 id="listName">
             {list.list_name}
           </h5>
@@ -117,7 +117,7 @@ const MainEditorComponent = ({list}) => {
             )
           })
           }
-        </p>
+        </div>
       </div>
     )
   }
