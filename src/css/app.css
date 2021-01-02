@@ -4,6 +4,8 @@
 
 .jumbotron {
   background: none;
+  padding-top: 0;
+  padding-bottom: 0;
   color: white;
   height: 70vh;
   background: #fb5058 !important;
@@ -13,6 +15,12 @@
 #headerWrapper {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+#jumbotron-text-container {
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+  margin-left: 8vh !important;
 }
 
 .react-calendar {
@@ -160,19 +168,69 @@
   background-color: #e6e6e6;
 }
 
+#logo {
+  width: 13%;
+  margin-top: 3vh;
+  margin-left: 10vh;
+}
+
+#options-button {
+  border: 2px solid white;
+  margin-top: 1vh;
+  margin-right: 1vh;
+  border-radius: 15px;
+  background-color: white;
+  color: #8383f1 !important;
+}
+
+#logout-button {
+  color: white;
+  border: 2px solid white;
+  margin-top: 1vh;
+  margin-right: 2vh;
+  border-radius: 15px;
+}
+
+#add-task-form {
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+}
+
+#wrapper-XD {
+  margin-top: 5vh;
+}
+
 #pageTemplateComponent {
   margin: 1.5%;
 }
 
 #mainWrapper {
-  height: 96vh;
+  height: 77vh;
+}
+
+#wrapper-XD {
+  align-items: flex-end;
+}
+
+#title {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#submit {
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 #leftSideComponent {
   background-color: white;
   border: 2px;
   padding: 2%;
-  height: 70vh;
+  height: 65vh;
   border-radius: 25px !important;
   display: inline-block;
   overflow: hidden;
@@ -183,7 +241,7 @@
   background-color: white;
   border: 2px;
   padding: 2%;
-  height: 70vh;
+  height: 65vh;
   border-radius: 25px !important;
   display: inline-block;
   overflow: hidden;
@@ -195,7 +253,7 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
-  height: 70vh;
+  height: 50vh;
 }
 
 #rightComponent {
@@ -203,7 +261,8 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
-  height: 70vh;
+  height: 65vh;
+  margin-bottom: 5vh;
 }
 
 #mainColumns {
@@ -211,6 +270,10 @@
   padding-left: 5%;
   padding-right: 5%;
   margin-top: -45vh;
+}
+
+#toggleWrapper {
+  margin-bottom: 2vh;
 }
 
 #listWrapper {
@@ -231,6 +294,10 @@
   height: 60vh;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+#tasksWrapper {
+  margin-left: 3vh;
 }
 
 #box {

@@ -95,7 +95,7 @@ const ListsAndTasksComponent = ({onListChange}) => {
 
     <div id="leftSideComponent" className="root col-3">
       <div className="scrollIt">
-        <div className="row">
+        <div>
           <div className="d-flex flex-row col-8">
             <h4 id="leftComponentTitle">My lists of tasks: </h4>
           </div>
@@ -133,7 +133,6 @@ const ListsAndTasksComponent = ({onListChange}) => {
                         <div>
                           <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
                         </div>
-                        <hr/>
                       </div>
                     )
                   })}

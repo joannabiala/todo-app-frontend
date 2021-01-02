@@ -3,7 +3,6 @@ import React from "react";
 const FooterComponent = ()=>{
   return(
     <div id="footerComponent">
-
     </div>
   )
 }

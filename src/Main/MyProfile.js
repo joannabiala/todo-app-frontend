@@ -1,15 +1,31 @@
 import React, {useState} from "react";
+import axios from 'axios';
 import "../css/app.css";
 import PageTemplateComponent from "../Components/PageTemplateComponent";
 import CalendarComponent from "../Components/CalendarComponent";
 import MainEditorComponent from "../Components/MainEditorComponent";
 import ListsAndTasksComponent from "../Components/ListsAndTasksComponent";
+import {Redirect} from "react-router-dom";
+
 
 
 const MyProfile = () => {
 
   const [index, setIndex] = useState(0)
   const [list, setList] = useState(null)
+  const [redirectToMain, setRedirectToMain] = useState(false)
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    delete axios.defaults.headers.common['Authorization'];
+    setRedirectToMain(true);
+  }
+
+
+  if (redirectToMain) {
+    return (<Redirect to="/"/>)
+  }
+
 
   return (
     <div className="mainWrapper">
@@ -17,10 +33,20 @@ const MyProfile = () => {
       <div className="row" id="box">
         <div id="headerWrapper" className="col-12 ">
         <div className="jumbotron jumbotron-fluid">
-          <div className="container">
-            <h1 className="display-4">Fluid jumbotron</h1>
-            <p className="lead">This is a modified jumbotron that occupies the entire horizontal space of its
-              parent.</p>
+          <img id="logo" src="/default-monochrome-white.svg" alt="logo"/>
+          <button onClick={handleLogout} id="logout-button" type="button" className="float-right btn">
+            Logout
+          </button>
+          <button id="options-button" type="button" className="float-right btn">
+            Options
+          </button>
+          <div id="jumbotron-text-container" className="container">
+            <h3 className="">
+              Hello you!
+            </h3>
+            <p className="lead">
+              organize your day, start creating lists!
+            </p>
           </div>
         </div>
         </div>

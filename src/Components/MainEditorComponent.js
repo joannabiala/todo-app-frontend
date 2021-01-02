@@ -74,8 +74,8 @@ const MainEditorComponent = ({list}) => {
 
   const renderClickedList = (list) => {
     return (
-      <div className="col-12">
-        <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
+      <div id="wrapper-XD" className="col-12">
+        <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column  ">
           <h5 id="listName">
             {list.list_name}
           </h5>
@@ -87,7 +87,7 @@ const MainEditorComponent = ({list}) => {
 
           {list.taski.map((task) => {
             return (
-              <div id="tasksWrapper">
+              <div className="" id="tasksWrapper">
                 <div id="taskTitle">
                 <span onClick={() => handleComplete(task)}>
                   {task.completed === false
@@ -112,7 +112,6 @@ const MainEditorComponent = ({list}) => {
                 <div>
                   <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
                 </div>
-                <hr/>
               </div>
             )
           })
@@ -125,31 +124,28 @@ const MainEditorComponent = ({list}) => {
 
   const showListForm = () => {
     return (
-      <div>
-        <form id="form" className="row">
-          <div className="col-12">
-            <input
-              id="title"
-              className="form-control"
-              name="title"
-              placeholder="lists name"
-              onChange={(e) => setList_name(e.target.value)}
-              value={list_name}
-            />
-          </div>
-          <div className="col-5">
-            <button
-              onClick={handleSubmitListName}
-              id="submit"
-              className="btn btn-primary"
-              type="submit"
-              name="add"
-            >
-              Create list
-            </button>
-          </div>
-        </form>
-      </div>
+      <React.Fragment>
+        <div className="col-7">
+          <input
+            id="title"
+            name="title"
+            placeholder=" list name"
+            onChange={(e) => setList_name(e.target.value)}
+            value={list_name}
+          />
+        </div>
+        <div className="col-4">
+          <button
+            onClick={handleSubmitListName}
+            id="submit"
+            className="btn btn-primary"
+            type="submit"
+            name="add"
+          >
+           Add list
+          </button>
+        </div>
+      </React.Fragment>
     )
   }
 
@@ -236,21 +232,27 @@ const MainEditorComponent = ({list}) => {
   const showTaskForm = () => {
     return (
       <form onSubmit={handleSubmitTask} id="form">
-        <div>
-          <input
-            id="title"
-            className="form-control"
-            name="title"
-            placeholder="nazwa taska"
-            onChange={handleChange}
-            value={activeItem.title}
-          />
-          <input
-            id="submit"
-            className="form-control"
-            type="submit"
-            name="add"
-          />
+        <div className="row" id="add-task-form">
+          <div className="col-8">
+            <input
+              id="title"
+              className="form-control"
+              name="title"
+              placeholder=" task name"
+              onChange={handleChange}
+              value={activeItem.title}
+            />
+          </div>
+          <div className="col-4">
+            <button
+              id="submit"
+              className="btn btn-primary"
+              type="submit"
+              name="add"
+            >
+              Add Task
+            </button>
+          </div>
         </div>
       </form>
     )
@@ -260,11 +262,13 @@ const MainEditorComponent = ({list}) => {
   return (
     <div id="mainEditorComponent" className="root col-5">
       <div className="scrollIt">
-        <div id="centerComponent" className="row">
-          <div onClick={() => toggleTrueFalse()} className="col-2">
-            <FontAwesomeIcon icon={faPlusSquare}/>
+        <div id="centerComponent">
+          <div className="row" id="toggleWrapper">
+            <div onClick={() => toggleTrueFalse()} className="col-1">
+              <FontAwesomeIcon icon={faPlusSquare}/>
+            </div>
+            {isToggled ? showListForm() : <div className="col-11"> Add new list or choose existing one to edit </div>}
           </div>
-          {isToggled ? showListForm() : <div> Add new list or choose existing one to edit </div>}
           {list ? renderClickedList(list) : null}
         </div>
       </div>
