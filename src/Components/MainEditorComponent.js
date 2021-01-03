@@ -74,7 +74,7 @@ const MainEditorComponent = ({list}) => {
 
   const renderClickedList = (list) => {
     return (
-      <div id="wrapper-XD" className="col-12">
+      <div id="clickedListWrapper" className="col-12">
         <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column  ">
           <h5 id="listName">
             {list.list_name}

@@ -196,7 +196,7 @@
   margin-bottom: 4vh;
 }
 
-#wrapper-XD {
+#clickedListWrapper {
   margin-top: 5vh;
 }
 
@@ -208,7 +208,7 @@
   height: 77vh;
 }
 
-#wrapper-XD {
+#clickedListWrapper {
   align-items: flex-end;
 }
 
@@ -298,6 +298,18 @@
 
 #tasksWrapper {
   margin-left: 3vh;
+}
+
+#loginFormBox {
+  border-radius: 20px;
+  border: 3px solid white;
+  padding: 5vh;
+}
+
+#registerFormBox {
+  border-radius: 20px;
+  border: 3px solid white;
+  padding: 5vh;
 }
 
 #box {
