@@ -4,8 +4,7 @@ import {Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlusSquare, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
-const MainEditorComponent = ({list}) => {
-  const [todoList, setTodoList] = useState([])
+const MainEditorComponent = ({list, fetchTasks}) => {
   const [list_name, setList_name] = useState('')
   const [activeItem, setActiveItem] = useState({
     id: null,
@@ -14,20 +13,21 @@ const MainEditorComponent = ({list}) => {
     list: ''
   })
 
-  const [editing, setEditing] = useState(false)
   const [redirectToMain, setRedirectToMain] = useState(false)
-  const [isLoadingContent, setIsLoadingContent] = useState(true)
   const [isToggled, setToggled] = useState(false);
-  const [isToggledTaskForm, setToggledTaskForm] = useState(false);
+  const [isToggledNewTaskForm, setToggledNewTaskForm] = useState(false);
+  const [isToggledUpdateTaskForm, setToggledUpdateTaskForm] = useState(false);
 
   const toggleTrueFalse = () => setToggled(!isToggled);
-  const toggleTaskForm = () => setToggledTaskForm(!isToggledTaskForm);
-
+  const toggleNewTaskForm = () => {
+    setToggledNewTaskForm(!isToggledNewTaskForm);
+    setToggledUpdateTaskForm(false);
+  }
 
   const handleDelete = (task) => {
     axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
       (response) => {
-        refreshPage()
+        fetchTasks();
         console.log(response);
       }
     ).catch((error) => {
@@ -50,15 +50,9 @@ const MainEditorComponent = ({list}) => {
     })
   }
 
-  const refreshPage = () => {
-    window.location.reload(false);
-  }
-
-
   const handleDeleteList = (list) => {
     axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
       (response) => {
-        fetchTasks()
         console.log(response);
       }
     ).catch((error) => {
@@ -74,8 +68,6 @@ const MainEditorComponent = ({list}) => {
     }
     axios.post('http://127.0.0.1:8000/api/list/', data)
       .then((response) => {
-        fetchTasks()
-        refreshPage()
         console.log(response)
       })
       .catch((error) => {
@@ -96,11 +88,13 @@ const MainEditorComponent = ({list}) => {
               </h5>
             </div>
             <div className="col-1">
-              <FontAwesomeIcon onClick={() => toggleTaskForm()} icon={faPlusSquare}/>
+              <FontAwesomeIcon onClick={() => toggleNewTaskForm()} icon={faPlusSquare}/>
             </div>
           </div>
 
-          {isToggledTaskForm ? showTaskForm() : null}
+          {isToggledNewTaskForm ? showAddNewTaskForm() : null}
+
+          {isToggledUpdateTaskForm ? showEditTaskForm() : null}
 
           {list.taski.map((task) => {
             return (
@@ -164,32 +158,10 @@ const MainEditorComponent = ({list}) => {
     )
   }
 
-
-  const fetchTasks = () => {
-    axios.get('http://127.0.0.1:8000/api/list/')
-      .then((response) => {
-        console.log(response)
-        setTodoList(response.data)
-        setIsLoadingContent(false)
-        console.log(todoList)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-
-  useEffect(() => {
-    fetchTasks()
-  }, [])
-
-
-  const handleSubmitTask = (event) => {
+  const handleSubmitNewTask = (event) => {
     event.preventDefault();
     axios.post('http://127.0.0.1:8000/api/tasks/', activeItem)
       .then((response) => {
-        console.log(response);
-        refreshPage()
         fetchTasks()
       })
       .catch((error) => {
@@ -197,6 +169,19 @@ const MainEditorComponent = ({list}) => {
       })
   }
 
+
+  const handleEditTask = (event) => {
+    event.preventDefault();
+    axios.put('http://127.0.0.1:8000/api/tasks/' + activeItem.id + '/', activeItem)
+      .then((response) => {
+        console.log(response);
+        setToggledUpdateTaskForm(false);
+        fetchTasks()
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
   if (redirectToMain) {
     return (<Redirect to="/main"/>)
@@ -220,30 +205,22 @@ const MainEditorComponent = ({list}) => {
 
 
   const handleUpdate = (task) => {
-    setEditing(true)
-    setToggledTaskForm(!isToggledTaskForm)
+    console.log('editing.........')
+    console.log(task.title)
+    setToggledUpdateTaskForm(true)
+    setToggledNewTaskForm(false)
 
-
-
-    if (editing === true) {
-      setActiveItem({
-        title: task.title,
-        id: task.id,
-        completed: task.completed
-      })
-    }
+    setActiveItem({
+      title: task.title,
+      id: task.id,
+      completed: task.completed
+    })
   }
 
 
-
-  const showTaskForm = (setEditing) => {
-    if (setEditing === true){
-      return <div>jakiś tam</div>
-    }
-
-
+  const showAddNewTaskForm = () => {
     return (
-      <form onSubmit={handleSubmitTask} id="form">
+      <form onSubmit={handleSubmitNewTask} id="form">
         <div className="row" id="add-task-form">
           <div className="col-8">
             <input
@@ -263,6 +240,35 @@ const MainEditorComponent = ({list}) => {
               name="add"
             >
               Add Task
+            </button>
+          </div>
+        </div>
+      </form>
+    )
+  }
+
+  const showEditTaskForm = () => {
+    return (
+      <form onSubmit={handleEditTask} id="form">
+        <div className="row" id="add-task-form">
+          <div className="col-8">
+            <input
+              id="title"
+              className="form-control"
+              name="title"
+              placeholder=" task name"
+              onChange={handleChange}
+              value={activeItem.title}
+            />
+          </div>
+          <div className="col-4">
+            <button
+              id="submit"
+              className="btn btn-primary"
+              type="submit"
+              name="add"
+            >
+              Update Task
             </button>
           </div>
         </div>

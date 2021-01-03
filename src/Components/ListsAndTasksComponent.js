@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import axios from "axios";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faEdit} from '@fortawesome/free-solid-svg-icons'
@@ -7,21 +7,19 @@ import 'react-perfect-scrollbar/dist/css/styles.css';
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 
-const ListsAndTasksComponent = ({onListChange}) => {
-  const [todoList, setTodoList] = useState([])
-  const [activeItem, setActiveItem] = useState({
-    id: null,
-    title: '',
-    completed: false,
-    list: ''
-  })
+const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
+  const [selectedListIndex, setSelectedListIndex] = useState(null)
 
-  const [editing, setEditing] = useState(false)
-  const [isLoadingContent, setIsLoadingContent] = useState(true)
+  useEffect(() => {
+    if (selectedListIndex !== null) {
+      onListChange(todoList[selectedListIndex])
+    }
+  }, [onListChange, todoList, selectedListIndex])
 
   const handleDeleteList = (list) => {
     axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
       (response) => {
+        setSelectedListIndex(null)
         fetchTasks()
         console.log(response);
       }
@@ -39,56 +37,11 @@ const ListsAndTasksComponent = ({onListChange}) => {
 
     axios.patch('http://127.0.0.1:8000/api/tasks/' + task.id + '/', task).then(
       (response) => {
-        setActiveItem(task.completed)
         console.log(response)
       }
     ).catch((error) => {
       console.log(error)
     })
-  }
-
-  const handleDelete = (task) => {
-    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
-      (response) => {
-        fetchTasks()
-        console.log(response);
-      }
-    ).catch((error) => {
-      console.log(error)
-    })
-  }
-
-  useEffect(() => {
-    fetchTasks()
-  }, [])
-
-  const fetchTasks = () => {
-    axios.get('http://127.0.0.1:8000/api/list/')
-      .then((response) => {
-        console.log(response)
-
-        setTodoList(response.data)
-        setIsLoadingContent(false)
-
-        console.log(todoList)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-
-  let lists = todoList;
-
-  const handleUpdate = (task) => {
-    setEditing(true)
-
-    if (editing === true) {
-      setActiveItem({
-        title: task.title,
-        id: task.id,
-        completed: task.completed
-      })
-    }
   }
 
   return (
@@ -100,9 +53,9 @@ const ListsAndTasksComponent = ({onListChange}) => {
             <h4 id="leftComponentTitle">My lists of tasks: </h4>
           </div>
         </div>
-        {lists.map((list, index) => {
+        {todoList.map((list, index) => {
           return (
-            <div onClick={() => onListChange(list)}
+            <div onClick={() => setSelectedListIndex(index)}
                  className="list-group" key={index}
             >
               <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
@@ -129,11 +82,6 @@ const ListsAndTasksComponent = ({onListChange}) => {
                             </del>
                           )}
                         </span>
-                        </div>
-
-                        <div className="col-4">
-                          <FontAwesomeIcon id="icon" onClick={() => handleDelete(task)} icon={faTrashAlt}/>
-                          <FontAwesomeIcon id="icon" onClick={() => handleUpdate(task)} icon={faEdit}/>
                         </div>
 
                       </div>

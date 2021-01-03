@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import axios from 'axios';
 import "../css/app.css";
 import PageTemplateComponent from "../Components/PageTemplateComponent";
@@ -12,6 +12,7 @@ const MyProfile = () => {
 
   const [index, setIndex] = useState(0)
   const [list, setList] = useState(null)
+  const [todoList, setTodoList] = useState([])
   const [redirectToMain, setRedirectToMain] = useState(false)
 
   const handleLogout = () => {
@@ -19,6 +20,23 @@ const MyProfile = () => {
     delete axios.defaults.headers.common['Authorization'];
     setRedirectToMain(true);
   }
+
+
+  const fetchTasks = useCallback(() => {
+    axios.get('http://127.0.0.1:8000/api/list/')
+      .then((response) => {
+        console.log(response)
+
+        setTodoList(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
+
+  useEffect(() => {
+    fetchTasks()
+  }, [fetchTasks])
 
 
   if (redirectToMain) {
@@ -49,10 +67,11 @@ const MyProfile = () => {
         </div>
         <div id="mainColumns" className="row d-flex justify-content-between">
           <ListsAndTasksComponent
-            onIndexChange={(index1) => setIndex(index1)}
+            todoList={todoList}
+            fetchTasks={fetchTasks}
             onListChange={(list1) => setList(list1)}
           />
-          <MainEditorComponent index={index} list={list}/>
+          <MainEditorComponent list={list} fetchTasks={fetchTasks}/>
           <CalendarComponent/>
         </div>
       </PageTemplateComponent>
