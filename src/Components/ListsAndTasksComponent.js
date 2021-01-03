@@ -106,17 +106,20 @@ const ListsAndTasksComponent = ({onListChange}) => {
                  className="list-group" key={index}
             >
               <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
-                <div>
-                  <h5 id="listName">{list.list_name}</h5>
-                  <div>
-                    <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
+                <div className="container-fluid">
+                  <div id="listNameWrapper" className="row">
+                    <div>
+                    <h5 id="listName">{list.list_name}</h5>
+                    </div>
+                    <div>
+                      <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
+                    </div>
                   </div>
-                  <br/>
 
                   {list.taski.map((task, index) => {
                     return (
-                      <div id="tasksWrapper">
-                        <div id="taskTitle">
+                      <div className="row" id="tasksWrapper">
+                        <div className="col-8" id="taskTitle">
                         <span onClick={() => handleComplete(task)}>
                           {task.completed === false ? (<span>{task.title}
                             {task.completed}</span>) : (
@@ -127,12 +130,12 @@ const ListsAndTasksComponent = ({onListChange}) => {
                           )}
                         </span>
                         </div>
-                        <div>
-                          <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+
+                        <div className="col-4">
+                          <FontAwesomeIcon id="icon" onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+                          <FontAwesomeIcon id="icon" onClick={() => handleUpdate(task)} icon={faEdit}/>
                         </div>
-                        <div>
-                          <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
-                        </div>
+
                       </div>
                     )
                   })}

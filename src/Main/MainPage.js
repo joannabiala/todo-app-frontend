@@ -4,7 +4,7 @@ import axios from "axios";
 import {Redirect} from "react-router-dom";
 
 
-const MainPage = (props) => {
+const MainPage = () => {
 
   const [isToggledLogin, setToggledLogin] = useState(false);
   const toggleTrueFalseLogin = () => {
@@ -92,11 +92,12 @@ const MainPage = (props) => {
     return <Redirect to="/myprofile"/>;
   }
 
-  return (<div className="mainWrapper">
+  return (
+    <div className="mainWrapper">
       <PageTemplateComponent>
         <div className="row" id="box">
           <div id="headerWrapper" className="col-12 ">
-            <div className="jumbotron jumbotron-fluid">
+            <div id="mainPageJumbotron" className="jumbotron jumbotron-fluid">
               <img id="logo" src="/default-monochrome-white.svg" alt="logo"/>
               <button onClick={() => toggleTrueFalseLogin()} id="logout-button" type="button"
                       className="float-right btn">
@@ -117,8 +118,7 @@ const MainPage = (props) => {
                       organize your day, start creating lists!
                     </p>
                   </div>
-                  <div className="col-5">
-
+                  <div className="col-7">
                     <div>
                       {isToggledLogin ?
                         <div id="loginFormBox">

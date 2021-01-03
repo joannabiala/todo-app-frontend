@@ -23,6 +23,55 @@
   margin-left: 8vh !important;
 }
 
+#mainPageJumbotron {
+  background: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: white;
+  height: 90vh;
+  background: #fb5058 !important;
+  background: linear-gradient(70deg, #fb5058 0%, #7a298d 41%, #8084f3 76%, #d76ac2 100%) !important;
+}
+
+#footer-element {
+  margin: 2vh;
+}
+
+#footer {
+  border-radius: 20px;
+  border: 1px solid #8084F3;
+  color: #8084F3;
+}
+
+#calendar {
+  margin-bottom: 15vh;
+}
+
+#listNameWrapper {
+  justify-content: space-between;
+}
+
+#tasksWrapper {
+  justify-content: space-between;
+}
+
+#icon {
+  padding: 1px;
+}
+
+#mainEditorAddTask {
+  justify-content: space-between;
+}
+
+#tasksWrapper {
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+#taskTitle {
+  margin-left: -3vh !important;
+}
+
 .react-calendar {
   width: 350px;
   max-width: 100%;

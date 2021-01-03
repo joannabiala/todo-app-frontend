@@ -40,30 +40,6 @@ const MyProfile = () => {
                 <h3 className="">
                   Hello you!
                 </h3>
-                <div className="dropdown">
-                  <button
-                    id="options-button"
-                    type="button"
-                    className="float-right
-              dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Options
-                  </button>
-                  <div className="dropdown-menu" id="settings-dropdown" aria-labelledby="dropdownMenuButton">
-                    <div>
-                      <b>Settings</b>
-                    </div>
-                    Delete account
-                    <div>
-                      <button className="btn btn-danger">
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
                 <p className="lead">
                   organize your day, start creating lists!
                 </p>

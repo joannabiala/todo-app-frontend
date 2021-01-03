@@ -24,6 +24,18 @@ const MainEditorComponent = ({list}) => {
   const toggleTaskForm = () => setToggledTaskForm(!isToggledTaskForm);
 
 
+  const handleDelete = (task) => {
+    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+      (response) => {
+        refreshPage()
+        console.log(response);
+      }
+    ).catch((error) => {
+      console.log(error)
+    })
+  }
+
+
   const handleChange = (event) => {
     let name = event.target.name
     let value = event.target.value
@@ -76,19 +88,24 @@ const MainEditorComponent = ({list}) => {
     return (
       <div id="clickedListWrapper" className="col-12">
         <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column  ">
-          <h5 id="listName">
-            {list.list_name}
-          </h5>
-          <div onClick={() => toggleTaskForm()}>
-            <FontAwesomeIcon icon={faPlusSquare}/>
+
+          <div id="mainEditorAddTask" className="row">
+            <div className="col-11">
+              <h5 id="listName">
+                {list.list_name}
+              </h5>
+            </div>
+            <div className="col-1">
+              <FontAwesomeIcon onClick={() => toggleTaskForm()} icon={faPlusSquare}/>
+            </div>
           </div>
 
-          {isToggledTaskForm ? showTaskForm() : <div> Add new task</div>}
+          {isToggledTaskForm ? showTaskForm() : null}
 
           {list.taski.map((task) => {
             return (
-              <div className="" id="tasksWrapper">
-                <div id="taskTitle">
+              <div className="row" id="tasksWrapper">
+                <div className="col-6" id="taskTitle">
                 <span onClick={() => handleComplete(task)}>
                   {task.completed === false
                     ?
@@ -106,11 +123,9 @@ const MainEditorComponent = ({list}) => {
                     )}
                 </span>
                 </div>
-                <div>
-                  <FontAwesomeIcon onClick={() => handleDelete(task)} icon={faTrashAlt}/>
-                </div>
-                <div>
-                  <FontAwesomeIcon onClick={() => handleUpdate(task)} icon={faEdit}/>
+                <div className="col-3">
+                  <FontAwesomeIcon id="icon" onClick={() => handleDelete(task)} icon={faTrashAlt}/>
+                  <FontAwesomeIcon id="icon" onClick={() => handleUpdate(task)} icon={faEdit}/>
                 </div>
               </div>
             )
@@ -142,7 +157,7 @@ const MainEditorComponent = ({list}) => {
             type="submit"
             name="add"
           >
-           Add list
+            Add list
           </button>
         </div>
       </React.Fragment>
@@ -206,6 +221,9 @@ const MainEditorComponent = ({list}) => {
 
   const handleUpdate = (task) => {
     setEditing(true)
+    setToggledTaskForm(!isToggledTaskForm)
+
+
 
     if (editing === true) {
       setActiveItem({
@@ -217,19 +235,13 @@ const MainEditorComponent = ({list}) => {
   }
 
 
-  const handleDelete = (task) => {
-    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
-      (response) => {
-        fetchTasks()
-        console.log(response);
-      }
-    ).catch((error) => {
-      console.log(error)
-    })
-  }
+
+  const showTaskForm = (setEditing) => {
+    if (setEditing === true){
+      return <div>jakiś tam</div>
+    }
 
 
-  const showTaskForm = () => {
     return (
       <form onSubmit={handleSubmitTask} id="form">
         <div className="row" id="add-task-form">
