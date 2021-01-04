@@ -33,20 +33,6 @@
   background: linear-gradient(70deg, #fb5058 0%, #7a298d 41%, #8084f3 76%, #d76ac2 100%) !important;
 }
 
-#footer-element {
-  margin: 2vh;
-}
-
-#footer {
-  border-radius: 20px;
-  border: 1px solid #8084F3;
-  color: #8084F3;
-}
-
-#calendar {
-  padding: 0.5vh;
-}
-
 #listNameWrapper {
   justify-content: space-between;
 }
@@ -70,14 +56,6 @@
 
 #taskTitle {
   margin-left: -3vh !important;
-}
-
-#calendarComponent {
-  padding: 0 !important;
-}
-
-#github {
-  text-decoration: none;
 }
 
 .react-calendar {
@@ -223,6 +201,14 @@
 
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
+}
+
+#calendarComponent {
+  padding: 0 !important;
+}
+
+#calendar {
+  padding: 0.5vh;
 }
 
 #logo {
@@ -388,6 +374,20 @@
   #mainWrapper {
     justify-content: space-between;
   }
+}
+
+#footer-element {
+  margin: 2vh;
+}
+
+#footer {
+  border-radius: 20px;
+  border: 1px solid #8084F3;
+  color: #8084F3;
+}
+
+#github {
+  text-decoration: none;
 }
 
 /*# sourceMappingURL=app.css.map */
