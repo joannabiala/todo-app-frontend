@@ -7,7 +7,7 @@
   padding-top: 0;
   padding-bottom: 0;
   color: white;
-  height: 70vh;
+  height: 97vh;
   background: #fb5058 !important;
   background: linear-gradient(70deg, #fb5058 0%, #7a298d 41%, #8084f3 76%, #d76ac2 100%) !important;
 }
@@ -44,7 +44,7 @@
 }
 
 #calendar {
-  margin-bottom: 15vh;
+  padding: 0.5vh;
 }
 
 #listNameWrapper {
@@ -70,6 +70,14 @@
 
 #taskTitle {
   margin-left: -3vh !important;
+}
+
+#calendarComponent {
+  padding: 0 !important;
+}
+
+#github {
+  text-decoration: none;
 }
 
 .react-calendar {
@@ -218,7 +226,7 @@
 }
 
 #logo {
-  width: 13%;
+  width: 15vh;
   margin-top: 3vh;
   margin-left: 10vh;
 }
@@ -279,22 +287,32 @@
   background-color: white;
   border: 2px;
   padding: 2%;
-  height: 65vh;
+  height: 57vh;
   border-radius: 25px !important;
   display: inline-block;
   overflow: hidden;
   margin-top: 0;
+}
+@media only screen and (max-width: 1200px) {
+  #leftSideComponent {
+    margin-top: 5vh;
+  }
 }
 
 #mainEditorComponent {
   background-color: white;
   border: 2px;
   padding: 2%;
-  height: 65vh;
+  height: 57vh;
   border-radius: 25px !important;
   display: inline-block;
   overflow: hidden;
   margin-top: 0;
+}
+@media only screen and (max-width: 1200px) {
+  #mainEditorComponent {
+    margin-top: 5vh;
+  }
 }
 
 #centerComponent {
@@ -302,7 +320,7 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
-  height: 50vh;
+  height: 57vh;
 }
 
 #rightComponent {
@@ -310,15 +328,20 @@
   border: 2px;
   border-radius: 25px;
   padding: 2%;
-  height: 65vh;
+  height: 57vh;
   margin-bottom: 5vh;
+}
+@media only screen and (max-width: 1200px) {
+  #rightComponent {
+    margin-top: 5vh;
+  }
 }
 
 #mainColumns {
   background-color: #eef2f5;
   padding-left: 5%;
   padding-right: 5%;
-  margin-top: -45vh;
+  margin-top: -65vh;
 }
 
 #toggleWrapper {
@@ -340,7 +363,7 @@
 }
 
 .scrollIt {
-  height: 60vh;
+  height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
 }
@@ -361,8 +384,10 @@
   padding: 5vh;
 }
 
-#box {
-  background-color: #eef2f5;
+@media only screen and (max-width: 1200px) {
+  #mainWrapper {
+    justify-content: space-between;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faEdit} from '@fortawesome/free-solid-svg-icons'
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 
 
 const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
@@ -44,54 +42,59 @@ const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
     })
   }
 
-  return (
 
-    <div id="leftSideComponent" className="root col-3">
+  return (
+    <div id="leftSideComponent" className="root col-xs-12  col-sm-12 col-md-6 col-lg-6 col-xl-3">
       <div className="scrollIt">
         <div>
           <div className="d-flex flex-row col-8">
             <h4 id="leftComponentTitle">My lists of tasks: </h4>
           </div>
         </div>
-        {todoList.map((list, index) => {
-          return (
-            <div onClick={() => setSelectedListIndex(index)}
-                 className="list-group" key={index}
-            >
-              <p id="listWrapper" href="#" className=" d-flex flex-row list-group-item flex-column align-items-start ">
-                <div className="container-fluid">
-                  <div id="listNameWrapper" className="row">
-                    <div>
-                    <h5 id="listName">{list.list_name}</h5>
-                    </div>
-                    <div>
-                      <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
-                    </div>
-                  </div>
 
-                  {list.taski.map((task, index) => {
-                    return (
-                      <div className="row" id="tasksWrapper">
-                        <div className="col-8" id="taskTitle">
+        {todoList.map((list, index) => {
+            return (
+              <div onClick={() => setSelectedListIndex(index)}
+                   className="list-group" key={index}
+              >
+                <p id="listWrapper" className=" d-flex flex-row list-group-item flex-column align-items-start ">
+                  <div className="container-fluid">
+                    <div id="listNameWrapper" className="row">
+                      <div>
+                        <h5 id="listName">
+                          {list.list_name}
+                        </h5>
+                      </div>
+                      <div>
+                        <FontAwesomeIcon onClick={() => handleDeleteList(list)} icon={faTrashAlt}/>
+                      </div>
+                    </div>
+
+                    {list.taski.map((task, index) => {
+                      return (
+                        <div className="row" id="tasksWrapper">
+                          <div className="col-8" id="taskTitle">
                         <span onClick={() => handleComplete(task)}>
                           {task.completed === false ? (<span>{task.title}
                             {task.completed}</span>) : (
                             <del>
-                              <p> {task.title} </p>
+                              <p>
+                                {task.title}
+                              </p>
                               {task.completed}
                             </del>
                           )}
                         </span>
+                          </div>
                         </div>
-
-                      </div>
-                    )
-                  })}
-                </div>
-              </p>
-            </div>
-          )
-        })}
+                      )
+                    })}
+                  </div>
+                </p>
+              </div>
+            )
+          }
+        )}
       </div>
     </div>
   )

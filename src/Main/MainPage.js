@@ -99,18 +99,26 @@ const MainPage = () => {
           <div id="headerWrapper" className="col-12 ">
             <div id="mainPageJumbotron" className="jumbotron jumbotron-fluid">
               <img id="logo" src="/default-monochrome-white.svg" alt="logo"/>
-              <button onClick={() => toggleTrueFalseLogin()} id="logout-button" type="button"
-                      className="float-right btn">
+              <button
+                onClick={() => toggleTrueFalseLogin()}
+                id="logout-button"
+                type="button"
+                className="float-right btn"
+              >
                 Log in
               </button>
-              <button onClick={() => toggleTrueFalseRegister()} id="options-button" type="button"
-                      className="float-right btn">
+              <button
+                onClick={() => toggleTrueFalseRegister()}
+                id="options-button"
+                type="button"
+                className="float-right btn"
+              >
                 Sign up
               </button>
 
               <div id="jumbotron-text-container" className="container">
-                <div className="row">
-                  <div className="col-4">
+                <div id="mainContainer" className="row">
+                  <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
                     <h3 className="">
                       Hello you!
                     </h3>
@@ -118,7 +126,7 @@ const MainPage = () => {
                       organize your day, start creating lists!
                     </p>
                   </div>
-                  <div className="col-7">
+                  <div className="col-xs-2 col-sm-12 col-md-5 col-lg-5 col-xl-5">
                     <div>
                       {isToggledLogin ?
                         <div id="loginFormBox">
@@ -198,10 +206,20 @@ const MainPage = () => {
                         </div> :
                         null}
                     </div>
+
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div>
+          <div className="text-center">© 2020 Joanna Biała
+            <p>
+              <a id="github" href="https://github.com/joannabiala">
+                Visit my GitHub profile! &hearts;
+              </a>
+            </p>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,8 +6,6 @@ import {
 } from "react-router-dom";
 import axios from 'axios';
 
-import SignIn from "./Main/SignIn";
-import LogIn from "./Main/Login";
 import MyProfile from "./Main/MyProfile";
 import MainPage from "./Main/MainPage";
 import "./css/app.css";
@@ -25,14 +23,8 @@ const App = () =>{
       <Router>
         <div>
           <Switch>
-            <Route path="/signin">
-              <SignIn/>
-            </Route>
             <Route path="/main">
               <MainPage/>
-            </Route>
-            <Route path="/login">
-              <LogIn/>
             </Route>
             <Route path="/myprofile">
               <MyProfile/>

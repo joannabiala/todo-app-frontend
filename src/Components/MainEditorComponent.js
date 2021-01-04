@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -50,16 +50,6 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     })
   }
 
-  const handleDeleteList = (list) => {
-    axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
-      (response) => {
-        console.log(response);
-      }
-    ).catch((error) => {
-      console.log(error)
-    })
-  }
-
 
   const handleSubmitListName = (event) => {
     event.preventDefault();
@@ -69,6 +59,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     axios.post('http://127.0.0.1:8000/api/list/', data)
       .then((response) => {
         console.log(response)
+        fetchTasks()
       })
       .catch((error) => {
         console.log(error)
@@ -79,7 +70,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
   const renderClickedList = (list) => {
     return (
       <div id="clickedListWrapper" className="col-12">
-        <div id="mainEditorListWrapper" href="#" className=" d-flex flex-row list-group-item flex-column  ">
+        <div id="mainEditorListWrapper" className=" d-flex flex-row list-group-item flex-column  ">
 
           <div id="mainEditorAddTask" className="row">
             <div className="col-11">
@@ -91,6 +82,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
               <FontAwesomeIcon onClick={() => toggleNewTaskForm()} icon={faPlusSquare}/>
             </div>
           </div>
+
 
           {isToggledNewTaskForm ? showAddNewTaskForm() : null}
 
@@ -278,14 +270,15 @@ const MainEditorComponent = ({list, fetchTasks}) => {
 
 
   return (
-    <div id="mainEditorComponent" className="root col-5">
+    <div id="mainEditorComponent" className="root col-xs-12  col-sm-12 col-md-6 col-lg-6 col-xl-5">
       <div className="scrollIt">
         <div id="centerComponent">
           <div className="row" id="toggleWrapper">
             <div onClick={() => toggleTrueFalse()} className="col-1">
               <FontAwesomeIcon icon={faPlusSquare}/>
             </div>
-            {isToggled ? showListForm() : <div className="col-11"> Add new list or choose existing one to edit </div>}
+            {isToggled ? showListForm() :
+              <div className="col-11"> Add a new list or select an existing one to add tasks to it</div>}
           </div>
           {list ? renderClickedList(list) : null}
         </div>

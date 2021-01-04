@@ -10,7 +10,6 @@ import {Redirect} from "react-router-dom";
 
 const MyProfile = () => {
 
-  const [index, setIndex] = useState(0)
   const [list, setList] = useState(null)
   const [todoList, setTodoList] = useState([])
   const [redirectToMain, setRedirectToMain] = useState(false)
