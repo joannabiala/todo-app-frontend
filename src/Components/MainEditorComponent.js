@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import axios from "axios";
-import {Redirect} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit, faPlusSquare, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 
@@ -13,7 +12,6 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     list: ''
   })
 
-  const [redirectToMain, setRedirectToMain] = useState(false)
   const [isToggled, setToggled] = useState(false);
   const [isToggledNewTaskForm, setToggledNewTaskForm] = useState(false);
   const [isToggledUpdateTaskForm, setToggledUpdateTaskForm] = useState(false);
@@ -174,11 +172,6 @@ const MainEditorComponent = ({list, fetchTasks}) => {
         console.log(error);
       })
   }
-
-  if (redirectToMain) {
-    return (<Redirect to="/main"/>)
-  }
-
 
   const handleComplete = (task) => {
     task.completed = !task.completed

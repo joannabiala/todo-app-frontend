@@ -39,7 +39,7 @@ const MyProfile = () => {
 
 
   if (redirectToMain) {
-    return (<Redirect to="/main"/>)
+    return (<Redirect to="/"/>)
   }
 
   return (

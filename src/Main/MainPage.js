@@ -60,7 +60,7 @@ const MainPage = () => {
   }
 
   if (redirectToLogin) {
-    return <Redirect to="/main"/>;
+    return <Redirect to="/"/>;
   }
 
   const handleSubmit = (event) => {

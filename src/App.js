@@ -22,7 +22,7 @@ const App = () =>{
       <Router>
         <div>
           <Switch>
-            <Route path="/main">
+            <Route exact path="/">
               <MainPage/>
             </Route>
             <Route path="/myprofile">
