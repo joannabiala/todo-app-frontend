@@ -33,31 +33,6 @@
   background: linear-gradient(70deg, #fb5058 0%, #7a298d 41%, #8084f3 76%, #d76ac2 100%) !important;
 }
 
-#listNameWrapper {
-  justify-content: space-between;
-}
-
-#tasksWrapper {
-  justify-content: space-between;
-}
-
-#icon {
-  padding: 1px;
-}
-
-#mainEditorAddTask {
-  justify-content: space-between;
-}
-
-#tasksWrapper {
-  margin-top: 3vh;
-  margin-bottom: 3vh;
-}
-
-#taskTitle {
-  margin-left: -3vh !important;
-}
-
 .react-calendar {
   width: 350px;
   max-width: 100%;
@@ -269,6 +244,28 @@
   padding: 0 !important;
 }
 
+#listNameWrapper {
+  justify-content: space-between;
+}
+
+#tasksWrapper {
+  justify-content: space-between;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+#icon {
+  padding: 1px;
+}
+
+#mainEditorAddTask {
+  justify-content: space-between;
+}
+
+#taskTitle {
+  margin-left: -3vh !important;
+}
+
 #leftSideComponent {
   background-color: white;
   border: 2px;
@@ -330,6 +327,10 @@
   margin-top: -65vh;
 }
 
+#leftComponent {
+  max-height: 55vh;
+}
+
 #toggleWrapper {
   margin-bottom: 2vh;
 }
@@ -344,10 +345,6 @@
   border-radius: 6px;
 }
 
-#leftComponent {
-  max-height: 55vh;
-}
-
 .scrollIt {
   height: 100%;
   overflow-x: hidden;
@@ -356,6 +353,20 @@
 
 #tasksWrapper {
   margin-left: 3vh;
+}
+
+#footer-element {
+  margin: 2vh;
+}
+
+#footer {
+  border-radius: 20px;
+  border: 1px solid #8084F3;
+  color: #8084F3;
+}
+
+#github {
+  text-decoration: none;
 }
 
 #loginFormBox {
@@ -374,20 +385,6 @@
   #mainWrapper {
     justify-content: space-between;
   }
-}
-
-#footer-element {
-  margin: 2vh;
-}
-
-#footer {
-  border-radius: 20px;
-  border: 1px solid #8084F3;
-  color: #8084F3;
-}
-
-#github {
-  text-decoration: none;
 }
 
 /*# sourceMappingURL=app.css.map */

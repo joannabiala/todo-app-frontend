@@ -5,7 +5,6 @@ import {
   Route
 } from "react-router-dom";
 import axios from 'axios';
-
 import MyProfile from "./Main/MyProfile";
 import MainPage from "./Main/MainPage";
 import "./css/app.css";

@@ -42,7 +42,6 @@ const MyProfile = () => {
     return (<Redirect to="/main"/>)
   }
 
-
   return (
     <div className="mainWrapper">
       <PageTemplateComponent>
