@@ -33,7 +33,6 @@ const MainPage = () => {
 
   const [usernameRegister, setUsernameRegister] = useState('')
   const [passwordRegister, setPasswordRegister] = useState('')
-  const [redirectToLogin, setRedirectToLogin] = useState(false)
 
 
   const handleSubmitRegister = (event) => {
@@ -47,21 +46,17 @@ const MainPage = () => {
     axios.post('http://127.0.0.1:8000/api/registration/', data)
       .then((response) => {
         console.log(response);
-        setRedirectToLogin(true);
-
         const token = `Token ${response.data.token}`
         axios.defaults.headers.common['Authorization'] = token;
-
         localStorage.setItem('token', token);
+        toggleTrueFalseLogin()
+        alert('Your account has been created! Now you can log in.')
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
-  if (redirectToLogin) {
-    return <Redirect to="/"/>;
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -83,6 +78,7 @@ const MainPage = () => {
 
       })
       .catch((error) => {
+        alert('Ups! Something went wrong, try again later.')
         console.log(error);
       })
   }
