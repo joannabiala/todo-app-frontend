@@ -57,6 +57,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     axios.post('http://127.0.0.1:8000/api/list/', data)
       .then((response) => {
         console.log(response)
+        setList_name('')
         fetchTasks()
       })
       .catch((error) => {
@@ -153,6 +154,11 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     axios.post('http://127.0.0.1:8000/api/tasks/', activeItem)
       .then((response) => {
         fetchTasks()
+        setActiveItem({
+          ...activeItem,
+          title: '',
+          list: list.id
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -167,6 +173,11 @@ const MainEditorComponent = ({list, fetchTasks}) => {
         console.log(response);
         setToggledUpdateTaskForm(false);
         fetchTasks()
+        setActiveItem({
+          ...activeItem,
+          title: '',
+          list: list.id
+        })
       })
       .catch((error) => {
         console.log(error);

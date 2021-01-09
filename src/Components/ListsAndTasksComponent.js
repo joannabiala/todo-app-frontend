@@ -12,11 +12,16 @@ const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
     }
   }, [onListChange, todoList, selectedListIndex])
 
+  function refreshPage() {
+    window.location.reload(false);
+  }
+
   const handleDeleteList = (list) => {
     axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
       (response) => {
         setSelectedListIndex(null)
         fetchTasks()
+        refreshPage()
         console.log(response);
       }
     ).catch((error) => {
