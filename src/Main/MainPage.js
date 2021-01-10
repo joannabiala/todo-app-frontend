@@ -43,7 +43,7 @@ const MainPage = () => {
       password: passwordRegister
     };
 
-    axios.post('http://127.0.0.1:8000/api/registration/', data)
+    axios.post('api/registration/', data)
       .then((response) => {
         console.log(response);
         const token = `Token ${response.data.token}`
@@ -66,7 +66,7 @@ const MainPage = () => {
       password: passwordLogin
     };
 
-    axios.post('http://127.0.0.1:8000/auth/', data)
+    axios.post('auth/', data)
       .then((response) => {
 
         const token = `Token ${response.data.token}`

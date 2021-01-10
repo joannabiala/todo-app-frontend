@@ -22,7 +22,7 @@ const MyProfile = () => {
 
 
   const fetchTasks = useCallback(() => {
-    axios.get('http://127.0.0.1:8000/api/list/')
+    axios.get('api/list/')
       .then((response) => {
         console.log(response)
 

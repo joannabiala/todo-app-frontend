@@ -17,7 +17,7 @@ const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
   }
 
   const handleDeleteList = (list) => {
-    axios.delete('http://127.0.0.1:8000/api/list/' + list.id + '/').then(
+    axios.delete('api/list/' + list.id + '/').then(
       (response) => {
         setSelectedListIndex(null)
         fetchTasks()
@@ -36,7 +36,7 @@ const ListsAndTasksComponent = ({onListChange, todoList, fetchTasks}) => {
     console.log(task.title)
     console.log(task.completed)
 
-    axios.patch('http://127.0.0.1:8000/api/tasks/' + task.id + '/', task).then(
+    axios.patch('api/tasks/' + task.id + '/', task).then(
       (response) => {
         console.log(response)
       }

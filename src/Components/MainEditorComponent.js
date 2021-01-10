@@ -23,7 +23,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
   }
 
   const handleDelete = (task) => {
-    axios.delete('http://127.0.0.1:8000/api/tasks/' + task.id + '/').then(
+    axios.delete('api/tasks/' + task.id + '/').then(
       (response) => {
         fetchTasks();
         console.log(response);
@@ -54,7 +54,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     const data = {
       list_name: list_name
     }
-    axios.post('http://127.0.0.1:8000/api/list/', data)
+    axios.post('api/list/', data)
       .then((response) => {
         console.log(response)
         setList_name('')
@@ -151,7 +151,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
 
   const handleSubmitNewTask = (event) => {
     event.preventDefault();
-    axios.post('http://127.0.0.1:8000/api/tasks/', activeItem)
+    axios.post('api/tasks/', activeItem)
       .then((response) => {
         fetchTasks()
         setActiveItem({
@@ -168,7 +168,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
 
   const handleEditTask = (event) => {
     event.preventDefault();
-    axios.put('http://127.0.0.1:8000/api/tasks/' + activeItem.id + '/', activeItem)
+    axios.put('api/tasks/' + activeItem.id + '/', activeItem)
       .then((response) => {
         console.log(response);
         setToggledUpdateTaskForm(false);
@@ -189,7 +189,7 @@ const MainEditorComponent = ({list, fetchTasks}) => {
     console.log(task.title)
     console.log(task.completed)
 
-    axios.patch('http://127.0.0.1:8000/api/tasks/' + task.id + '/', task).then(
+    axios.patch('api/tasks/' + task.id + '/', task).then(
       (response) => {
         setActiveItem(task.completed)
         console.log(response)

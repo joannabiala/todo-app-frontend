@@ -10,6 +10,7 @@ import MainPage from "./Main/MainPage";
 import "./css/app.css";
 
 axios.defaults.withCredentials = true;
+axios.defaults.baseURL = "https://todo-app-backend-22.herokuapp.com/"
 
 const App = () =>{
 
