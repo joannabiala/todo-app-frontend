@@ -3,7 +3,7 @@
 A simple web application that allows you to create lists and add tasks to them. It lets you to manage tasks:
 edit, delete and mark off already completed tasks.
 
-###Getting started
+### Getting started
 These instructions will get you a copy of the project 
 up and running on your local machine for development and testing purposes.
 
@@ -19,10 +19,10 @@ in the downloaded directory, then run
 
 #### Or just try online demo
 
-* [ToDoo!](https://todo-app-222.herokuapp.com/) - Link to Demo deployed on Heroku.
+* [ToDoo!](http://52.29.228.97:3000) - Link to deployed demo.
 
 
-###Built with
+### Built with
 * React
 * Bootstrap
 * Sass
